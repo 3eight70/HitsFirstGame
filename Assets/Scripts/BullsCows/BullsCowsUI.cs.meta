@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: d41f99725423a93c8a35ff91673628c1
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - userNumber: {instanceID: 0}
+  - errorText: {instanceID: 0}
+  - textFieldPrefab: {instanceID: 0}
+  - textFieldContainer: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
