@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 58a8006bef2eabe40afdacc52e3ab4a9
+guid: 9436a3f2be211e04ca8fe180cd8e55c2
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,8 +48,8 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 64
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 72, y: 27, z: 35, w: 79}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -110,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: TopDownHouse_DoorsAndWindows_0
+      name: pngwing.com_0
       rect:
         serializedVersion: 2
-        x: 1
-        y: 80
-        width: 29
-        height: 67
+        x: 98
+        y: 832
+        width: 36
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,313 +124,229 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f1a1db296b836f142947c24180a7ae2b
-      internalID: 1159858527
+      spriteID: 7dd230cae0457ae499d6cbee7a6c8f94
+      internalID: 999519103
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TopDownHouse_DoorsAndWindows_1
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 30
-        height: 79
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 82181d3c5943f1a418da5e35b726512a
-      internalID: 1053470179
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: TopDownHouse_DoorsAndWindows_2
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 0
-        width: 60
-        height: 79
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 362558b833fe242488cbea0162b351e9
-      internalID: -1834641766
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: TopDownHouse_DoorsAndWindows_3
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 79
-        width: 58
-        height: 75
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2edda5675dfd2654f89fe4d312ab1ad5
-      internalID: 1031559645
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: TopDownHouse_DoorsAndWindows_4
-      rect:
-        serializedVersion: 2
-        x: 100
-        y: 82
-        width: 25
-        height: 27
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: cc43cdfb17acc154abf03e61f816e9e7
-      internalID: 865377240
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: TopDownHouse_DoorsAndWindows_5
-      rect:
-        serializedVersion: 2
-        x: 97
-        y: 112
-        width: 30
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 07686bbcea69be94a95b9f4852cf879a
-      internalID: -1398752951
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: TopDownHouse_DoorsAndWindows_6
-      rect:
-        serializedVersion: 2
-        x: 131
-        y: 112
-        width: 26
-        height: 46
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 73d1081434d8ae04fbeb366f53bb42db
-      internalID: -280654498
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: TopDownHouse_DoorsAndWindows_7
-      rect:
-        serializedVersion: 2
-        x: 163
-        y: 109
-        width: 22
-        height: 49
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8b1e905bcb33ea64aaa0ec745787ec27
-      internalID: 1816577107
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: TopDownHouse_DoorsAndWindows_8
-      rect:
-        serializedVersion: 2
-        x: 131
-        y: 80
-        width: 26
-        height: 29
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a1bfb6d2a0f06b9448c00569b062bc11
-      internalID: 1775146183
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: TopDownHouse_DoorsAndWindows_9
-      rect:
-        serializedVersion: 2
-        x: 97
-        y: 32
-        width: 30
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4b9e6aa5e872f19489cbbc706e20a6c2
-      internalID: -2040514284
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: TopDownHouse_DoorsAndWindows_10
-      rect:
-        serializedVersion: 2
-        x: 100
-        y: 1
-        width: 25
-        height: 28
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f899fe16de385914981a0822a6e23ce3
-      internalID: -1811086151
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: TopDownHouse_DoorsAndWindows_11
-      rect:
-        serializedVersion: 2
-        x: 131
-        y: 0
-        width: 26
-        height: 29
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 394c6d24ae8068b47bf08865bcfab69b
-      internalID: -1102969027
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: TopDownHouse_DoorsAndWindows_12
-      rect:
-        serializedVersion: 2
-        x: 131
-        y: 32
-        width: 26
-        height: 46
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0a14e37538456014685149fbb9396821
-      internalID: -1153150122
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: TopDownHouse_DoorsAndWindows_13
-      rect:
-        serializedVersion: 2
-        x: 193
-        y: 112
-        width: 30
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f66354f971272e74c982c1d17f976a6e
-      internalID: -2125328593
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: TopDownHouse_DoorsAndWindows_14
-      rect:
-        serializedVersion: 2
-        x: 163
-        y: 80
-        width: 26
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 84ad66240ea7c5244b81e4357c529d28
-      internalID: 1481919659
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: TopDownHouse_DoorsAndWindows_15
+      name: pngwing.com_1
       rect:
         serializedVersion: 2
         x: 196
-        y: 81
-        width: 25
+        y: 832
+        width: 35
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6244a76d76b562545935f70a1bdd910f
+      internalID: 936518865
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pngwing.com_2
+      rect:
+        serializedVersion: 2
+        x: 314
+        y: 832
+        width: 29
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d7f0e41c079159347bd9339d64631c93
+      internalID: -922041476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pngwing.com_3
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 832
+        width: 22
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e2271c0c31a29ae4bafb0390800e3bd3
+      internalID: 422656170
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pngwing.com_4
+      rect:
+        serializedVersion: 2
+        x: 502
+        y: 832
+        width: 11
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ebfe6912cddd3c745a92a9d076f7fc2a
+      internalID: 1490079052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pngwing.com_5
+      rect:
+        serializedVersion: 2
+        x: 608
+        y: 832
+        width: 20
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bb9c9930408b1b443a2b10f4cb85ea6b
+      internalID: 693263952
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pngwing.com_6
+      rect:
+        serializedVersion: 2
+        x: 701
+        y: 832
+        width: 20
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 989fef9b3a4c01c40a1f44064f326de7
+      internalID: -1007781998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pngwing.com_7
+      rect:
+        serializedVersion: 2
+        x: 797
+        y: 832
+        width: 24
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 37b3489f29453464d8fbf271e7b1fd3f
+      internalID: 985071842
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pngwing.com_8
+      rect:
+        serializedVersion: 2
+        x: 21
+        y: 755
+        width: 32
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6b4024a14f6c6ca46be56e46e8aacc3c
+      internalID: 379045866
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pngwing.com_9
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 27
+        width: 784
+        height: 784
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 572cc79702dad3d478ae3c7a9065c21b
+      internalID: 1771353947
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pngwing.com_10
+      rect:
+        serializedVersion: 2
+        x: 21
+        y: 657
+        width: 32
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 263372f74d1fee742881b04990cadbac
+      internalID: 1727745741
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pngwing.com_11
+      rect:
+        serializedVersion: 2
+        x: 21
+        y: 546
+        width: 32
         height: 28
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -439,20 +355,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1d798b422f5e9984f84b6f0e611d0ea2
-      internalID: 803067178
+      spriteID: 12c07bff4854be64b9254180cf02da37
+      internalID: -550220086
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TopDownHouse_DoorsAndWindows_16
+      name: pngwing.com_12
       rect:
         serializedVersion: 2
-        x: 227
-        y: 112
-        width: 26
-        height: 46
+        x: 21
+        y: 455
+        width: 32
+        height: 22
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -460,20 +376,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b3e378236664f8f44b89ae9d98de1a47
-      internalID: 515201460
+      spriteID: cff9ed0d33faaca4888927f73dd6243f
+      internalID: 1592414188
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TopDownHouse_DoorsAndWindows_17
+      name: pngwing.com_13
       rect:
         serializedVersion: 2
-        x: 259
-        y: 110
-        width: 22
-        height: 48
+        x: 21
+        y: 375
+        width: 32
+        height: 11
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -481,20 +397,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0eb62ac01cf4b9a45ae35aedb81fb19f
-      internalID: -2042351133
+      spriteID: 6836f3984b566af42b0d96118db5ceef
+      internalID: -2137153192
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TopDownHouse_DoorsAndWindows_18
+      name: pngwing.com_14
       rect:
         serializedVersion: 2
-        x: 227
-        y: 80
-        width: 26
-        height: 29
+        x: 21
+        y: 260
+        width: 32
+        height: 20
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -502,20 +418,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 804c1b8e35783c64e9a2f3e211286e58
-      internalID: -1903310084
+      spriteID: c90ae26c28428a74a802383fa5253316
+      internalID: -435668938
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TopDownHouse_DoorsAndWindows_19
+      name: pngwing.com_15
       rect:
         serializedVersion: 2
-        x: 259
-        y: 80
-        width: 26
-        height: 16
+        x: 21
+        y: 167
+        width: 32
+        height: 20
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -523,20 +439,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bbcc039b48fabfd48bdcb3a78aad421d
-      internalID: -1984548493
+      spriteID: 57c833d64596c114486ff6992961707d
+      internalID: -677902157
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TopDownHouse_DoorsAndWindows_20
+      name: pngwing.com_16
       rect:
         serializedVersion: 2
-        x: 227
-        y: 32
-        width: 26
-        height: 46
+        x: 21
+        y: 68
+        width: 32
+        height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -544,46 +460,44 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 013861591d79cdd418e16eaab29553c6
-      internalID: -753638217
+      spriteID: 3c91187d5e420d14c82c07ea09c18248
+      internalID: -103826290
       vertices: []
       indices: 
       edges: []
       weights: []
-    outline: []
+    outline:
+    - - {x: -445.5, y: -445}
+      - {x: 445.5, y: -445}
+      - {x: 445.5, y: 445}
+      - {x: -445.5, y: 445}
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
-    internalID: 0
+    internalID: 1537655665
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      TopDownHouse_DoorsAndWindows_0: -521615371
-      TopDownHouse_DoorsAndWindows_1: 1159858527
-      TopDownHouse_DoorsAndWindows_10: -2040514284
-      TopDownHouse_DoorsAndWindows_11: -1811086151
-      TopDownHouse_DoorsAndWindows_12: -1102969027
-      TopDownHouse_DoorsAndWindows_13: -1153150122
-      TopDownHouse_DoorsAndWindows_14: -2125328593
-      TopDownHouse_DoorsAndWindows_15: 1481919659
-      TopDownHouse_DoorsAndWindows_16: 803067178
-      TopDownHouse_DoorsAndWindows_17: 515201460
-      TopDownHouse_DoorsAndWindows_18: -2042351133
-      TopDownHouse_DoorsAndWindows_19: -1903310084
-      TopDownHouse_DoorsAndWindows_2: 1053470179
-      TopDownHouse_DoorsAndWindows_20: -1984548493
-      TopDownHouse_DoorsAndWindows_21: -753638217
-      TopDownHouse_DoorsAndWindows_22: -1961737056
-      TopDownHouse_DoorsAndWindows_3: -1834641766
-      TopDownHouse_DoorsAndWindows_4: 1031559645
-      TopDownHouse_DoorsAndWindows_5: 865377240
-      TopDownHouse_DoorsAndWindows_6: -1398752951
-      TopDownHouse_DoorsAndWindows_7: -280654498
-      TopDownHouse_DoorsAndWindows_8: 1816577107
-      TopDownHouse_DoorsAndWindows_9: 1775146183
+      pngwing.com_0: 999519103
+      pngwing.com_1: 936518865
+      pngwing.com_10: 1727745741
+      pngwing.com_11: -550220086
+      pngwing.com_12: 1592414188
+      pngwing.com_13: -2137153192
+      pngwing.com_14: -435668938
+      pngwing.com_15: -677902157
+      pngwing.com_16: -103826290
+      pngwing.com_2: -922041476
+      pngwing.com_3: 422656170
+      pngwing.com_4: 1490079052
+      pngwing.com_5: 693263952
+      pngwing.com_6: -1007781998
+      pngwing.com_7: 985071842
+      pngwing.com_8: 379045866
+      pngwing.com_9: 1771353947
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
