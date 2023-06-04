@@ -12,13 +12,17 @@ public class LevelChanger : MonoBehaviour
     public Slider slider;
     public GameObject loadingScreen;
 
+    public Vector3 position;
+    public VectorValue playerStorage;
+
     private void Start()
     {
         anim = GetComponent<Animator>();
     }
 
     public void FadeToLevel()
-    {   
+    {
+        playerStorage.initialValue = position;
         anim.SetTrigger("fade");
     }
 
