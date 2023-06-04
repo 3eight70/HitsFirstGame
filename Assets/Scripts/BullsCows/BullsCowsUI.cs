@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,7 +14,8 @@ public class BullsCowsUI : MonoBehaviour
 
     private bool CheckInput() 
     {
-        // || Regex.IsMatch(userNumber.text, "^[/d]+$")
+        if (!Regex.IsMatch(userNumber.text, "^[\\d]+$")) return false;
+
         if (userNumber.text.Length != 3) return false;
         int[] numbers = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
@@ -27,24 +29,33 @@ public class BullsCowsUI : MonoBehaviour
         return true;
     }
 
-    public void UserInputButton()
+    public void OnUserTryClick()
     {
-        textFieldCount++;
+        if (!CheckInput()) 
+        {
+            // userNumber.text = "";
+            errorText.text = "Введите трехзначное число без повторений";
+            return;
+        } 
+
+
         float marginTop = (50 * textFieldCount);
+        textFieldCount++;
         
         GameObject newTextField = Instantiate(textFieldPrefab, textFieldContainer.transform);
         newTextField.transform.localPosition = Vector3.zero;
         Text textFieldText = newTextField.GetComponentInChildren<Text>();
-        textFieldText.transform.localPosition = new Vector3(0f, marginTop, 0f);
+        textFieldText.transform.localPosition = new Vector3(0f, -marginTop, 0f);
 
-        if (CheckInput()) 
-        {
-            textFieldText.text = userNumber.text + "1 бык, 1 корова";
-        } 
-        else 
-        {
-            errorText.text = "Введите трехзначное число без повторений";
-        }
+        textFieldText.text = algorithm(userNumber.text);
+
+        errorText.text = "";
+        userNumber.text = "";
+    }
+
+    private string algorithm(string str) 
+    {
+        return str;
     }
   
     // Start is called before the first frame update
