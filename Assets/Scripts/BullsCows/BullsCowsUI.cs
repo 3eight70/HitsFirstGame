@@ -1,72 +1,95 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BullsCowsUI : MonoBehaviour
+namespace BullsCows
 {
-    public InputField userNumber;
-    public Text errorText;
-    public GameObject textFieldPrefab;
-    public Transform textFieldContainer;
-    private int textFieldCount = 0;
-
-    private bool CheckInput() 
+    public class BullsCowsUI : MonoBehaviour
     {
-        if (!Regex.IsMatch(userNumber.text, "^[\\d]+$")) return false;
+        public InputField UserNumber;
+        public Text ErrorText;
+        public GameObject TextFieldPrefab;
+        public Transform TextFieldContainer;
+        private Algorithm Algorithm;
 
-        if (userNumber.text.Length != 3) return false;
-        int[] numbers = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-
-        foreach (var symbol in userNumber.text)
+        private Text CreateTextField()
         {
-            var number = int.Parse(symbol.ToString());
-            numbers[number] += 1;
-            if (numbers[number] > 1) return false;
+            const int defaultMarginTop = 30;
+
+            float marginTop = (defaultMarginTop * Algorithm.AttemptsNum);
+
+            GameObject newTextField = Instantiate(TextFieldPrefab, TextFieldContainer.transform);
+            newTextField.transform.localPosition = Vector3.zero;
+
+            Text textFieldText = newTextField.GetComponentInChildren<Text>();
+            textFieldText.transform.localPosition = new Vector3(0f, -marginTop, 0f);
+
+            return textFieldText;
         }
 
-        return true;
-    }
-
-    public void OnUserTryClick()
-    {
-        if (!CheckInput()) 
+        public void OnUserTryClick()
         {
-            // userNumber.text = "";
-            errorText.text = "Введите трехзначное число без повторений";
-            return;
-        } 
+            AlgorithmAnswer result = Algorithm.Execute(UserNumber.text);
 
+            if (result.Status == AlgorithmAnswerStatus.Error)
+            {
+                ErrorText.text = result.Text;
 
-        float marginTop = (50 * textFieldCount);
-        textFieldCount++;
-        
-        GameObject newTextField = Instantiate(textFieldPrefab, textFieldContainer.transform);
-        newTextField.transform.localPosition = Vector3.zero;
-        Text textFieldText = newTextField.GetComponentInChildren<Text>();
-        textFieldText.transform.localPosition = new Vector3(0f, -marginTop, 0f);
+                return;
+            }
 
-        textFieldText.text = algorithm(userNumber.text);
+            if (result.Status == AlgorithmAnswerStatus.Incorrect)
+            {
+                Text textFieldText = CreateTextField();
+                textFieldText.text = result.Text;
 
-        errorText.text = "";
-        userNumber.text = "";
-    }
+                ErrorText.text = "";
+                UserNumber.text = "";
 
-    private string algorithm(string str) 
-    {
-        return str;
-    }
-  
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+                return;
+            }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+            if (result.Status == AlgorithmAnswerStatus.Win)
+            {
+
+                Text textFieldText = CreateTextField();
+                textFieldText.text = result.Text;
+
+                ErrorText.text = "";
+                UserNumber.text = "";
+                
+                return;
+            }
+
+            if (result.Status == AlgorithmAnswerStatus.Lose)
+            {
+                ResetGame();
+                return;
+            }
+        }
+
+        private void ResetGame()
+        {
+            for (int i = TextFieldContainer.transform.childCount - 1; i >= 2; i--)
+            {
+                GameObject textField = TextFieldContainer.transform.GetChild(i).gameObject;
+
+                Destroy(textField);
+            }
+        }
+
+        void Start()
+        {
+            Algorithm = new Algorithm();
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+
+        }
     }
 }

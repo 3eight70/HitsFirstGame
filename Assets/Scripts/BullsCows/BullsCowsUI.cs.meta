@@ -4,10 +4,10 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - userNumber: {instanceID: 0}
-  - errorText: {instanceID: 0}
-  - textFieldPrefab: {instanceID: 0}
-  - textFieldContainer: {instanceID: 0}
+  - UserNumber: {instanceID: 0}
+  - ErrorText: {instanceID: 0}
+  - TextFieldPrefab: {instanceID: 0}
+  - TextFieldContainer: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
