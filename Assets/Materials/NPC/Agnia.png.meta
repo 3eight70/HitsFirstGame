@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 534d8800b5862504d8cc8aef26f59e40
+guid: 3d0ed9e628314494a98c5f5704029a94
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -105,13 +105,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Icons-01_0
+      name: Agnia_0
       rect:
         serializedVersion: 2
-        x: 1242
-        y: 2576
-        width: 127
-        height: 177
+        x: 18
+        y: 642
+        width: 28
+        height: 47
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -119,20 +119,62 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0d6c65d1d6ca98b41be44334f4a40654
-      internalID: -645860473
+      spriteID: 1eb3340c175e73a4ca2234a17f53c01c
+      internalID: -324230729
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Icons-01_1
+      name: Agnia_1
       rect:
         serializedVersion: 2
-        x: 1243
-        y: 719
-        width: 126
-        height: 178
+        x: 82
+        y: 642
+        width: 28
+        height: 47
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 84be9b5b9ab0c184b83f77c0f0fb18d8
+      internalID: 543951169
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Agnia_2
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 386
+        width: 25
+        height: 47
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc55032b628c4b64a81560341ef00647
+      internalID: -160803436
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Agnia_3
+      rect:
+        serializedVersion: 2
+        x: 148
+        y: 386
+        width: 24
+        height: 45
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -140,8 +182,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8299c6a211b6a7145bd86484eae26d65
-      internalID: 1535384094
+      spriteID: bde5f92f035665f4285f08db8a8c77fc
+      internalID: 884734533
       vertices: []
       indices: 
       edges: []
@@ -157,8 +199,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Icons-01_0: -645860473
-      Icons-01_1: 1535384094
+      Agnia_0: -324230729
+      Agnia_1: 543951169
+      Agnia_2: -160803436
+      Agnia_3: 884734533
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
