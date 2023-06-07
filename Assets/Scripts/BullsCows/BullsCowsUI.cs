@@ -9,8 +9,8 @@ namespace BullsCows
 {
     public class BullsCowsUI : MonoBehaviour
     {
+        public Animator animator;
         public InputField UserNumber;
-        public Text ErrorText;
         public GameObject TextFieldPrefab;
         public Transform TextFieldContainer;
         private Algorithm Algorithm;
@@ -36,7 +36,7 @@ namespace BullsCows
 
             if (result.Status == AlgorithmAnswerStatus.Error)
             {
-                ErrorText.text = result.Text;
+                animator.SetTrigger("OnErrorUserNumber");
 
                 return;
             }
@@ -46,7 +46,6 @@ namespace BullsCows
                 Text textFieldText = CreateTextField();
                 textFieldText.text = result.Text;
 
-                ErrorText.text = "";
                 UserNumber.text = "";
 
                 return;
@@ -58,7 +57,6 @@ namespace BullsCows
                 Text textFieldText = CreateTextField();
                 textFieldText.text = result.Text;
 
-                ErrorText.text = "";
                 UserNumber.text = "";
                 
                 return;
@@ -86,7 +84,6 @@ namespace BullsCows
             Algorithm = new Algorithm();
         }
 
-        // Update is called once per frame
         void Update()
         {
 

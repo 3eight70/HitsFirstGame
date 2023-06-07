@@ -56,6 +56,36 @@ namespace BullsCows
             return true;
         }
 
+
+        private string CorrectCowsWriting(int cowsNum)
+        {
+            if (cowsNum == 0) return "0 коров";
+            if (cowsNum == 1) return "1 корова";
+            return String.Format("{0} корова", cowsNum);
+        }
+
+        private string CorrectBullsWriting(int bullsNum)
+        {
+            if (bullsNum == 0) return "0 быков";
+            if (bullsNum == 1) return "1 бык";
+            return String.Format("{0} быка", bullsNum);
+        }
+
+
+        private string GetBullsCows(string userNumber)
+        {
+            var bullsNum = 0;
+            var cowsNum = 0;
+
+            for (int i = 0; i < 3; i++)
+            {
+                if (userNumber[i] == hiddenNumber[i]) bullsNum++;
+                else if (hiddenNumber.Contains(userNumber[i])) cowsNum++;
+            }
+
+            return userNumber + String.Format(" - {0} и {1} ", CorrectBullsWriting(bullsNum), CorrectCowsWriting(cowsNum));
+        }
+
         public AlgorithmAnswer Execute(string userNumber)
         {
             AlgorithmAnswer answer = new AlgorithmAnswer();
@@ -78,7 +108,7 @@ namespace BullsCows
             else
             {
                 answer.Status = AlgorithmAnswerStatus.Incorrect;
-                answer.Text = "быки коровы";
+                answer.Text = GetBullsCows(userNumber);
             }
 
             AttemptsNum++;
