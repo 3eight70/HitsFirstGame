@@ -9,7 +9,8 @@ namespace BullsCows
 {
     public class BullsCowsUI : MonoBehaviour
     {
-        public Animator animator;
+        public Animator WinAnimator;
+        public Animator ErrorAnimator;
         public InputField UserNumber;
         public GameObject TextFieldPrefab;
         public Transform TextFieldContainer;
@@ -36,7 +37,7 @@ namespace BullsCows
 
             if (result.Status == AlgorithmAnswerStatus.Error)
             {
-                animator.SetTrigger("OnErrorUserNumber");
+                ErrorAnimator.SetTrigger("OnErrorUserNumber");
 
                 return;
             }
@@ -53,9 +54,7 @@ namespace BullsCows
 
             if (result.Status == AlgorithmAnswerStatus.Win)
             {
-
-                Text textFieldText = CreateTextField();
-                textFieldText.text = result.Text;
+                WinAnimator.SetTrigger("OpenWinPopup");
 
                 UserNumber.text = "";
                 
