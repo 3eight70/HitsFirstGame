@@ -101,38 +101,29 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Elements-01_0
-      rect:
-        serializedVersion: 2
-        x: 146
-        y: 3557
-        width: 1022
-        height: 425
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3b39367932868864090e5ea5767f17b2
-      internalID: -1443032765
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: Elements-01_1
       rect:
         serializedVersion: 2
-        x: 223
+        x: 225
         y: 1558
-        width: 1018
-        height: 428
+        width: 1016
+        height: 427
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -147,7 +138,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Elements-01_2
+      name: CloseRules
       rect:
         serializedVersion: 2
         x: 1370
@@ -155,7 +146,7 @@ TextureImporter:
         width: 1015
         height: 415
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -163,6 +154,69 @@ TextureImporter:
       bones: []
       spriteID: 930945b17db1ba140a7de03c1ddb5eea
       internalID: 1460989555
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RulesButton
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 3558
+        width: 1011
+        height: 420
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a396e7d452710c14fb510a3299265864
+      internalID: 2136940893
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RulesPanel
+      rect:
+        serializedVersion: 2
+        x: 222
+        y: 280
+        width: 598
+        height: 1061
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 85a90c37a2e751b2fa5c9aadc27c65ea
+      internalID: -1815696531
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RulesPanelBlue
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 2281
+        width: 593
+        height: 1058
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3d9782b4b8b085be983bf308eb09579
+      internalID: -348938952
       vertices: []
       indices: 
       edges: []
@@ -178,9 +232,13 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Elements-01_0: -1443032765
+      CloseRules: 1460989555
       Elements-01_1: 305354134
-      Elements-01_2: 1460989555
+      Elements-01_3: -1495963905
+      Elements-01_4: 2061919663
+      RulesButton: 2136940893
+      RulesPanel: -1815696531
+      RulesPanelBlue: -348938952
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
