@@ -1385,7 +1385,7 @@ MonoBehaviour:
   speed: 2
   rb: {fileID: 570581939}
   animator: {fileID: 570581937}
-  pos: {fileID: 0}
+  pos: {fileID: 11400000, guid: 1185ac6bc9751b444b329ecbc7227dc7, type: 2}
 --- !u!50 &570581939
 Rigidbody2D:
   serializedVersion: 4
@@ -2466,11 +2466,11 @@ PrefabInstance:
       objectReference: {fileID: 1313758282}
     - target: {fileID: 8028577509945895758, guid: b3cdc2f47ae17b64a99108df5d461c5d, type: 3}
       propertyPath: position.x
-      value: 2.5
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 8028577509945895758, guid: b3cdc2f47ae17b64a99108df5d461c5d, type: 3}
       propertyPath: position.y
-      value: 1.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8028577509945895758, guid: b3cdc2f47ae17b64a99108df5d461c5d, type: 3}
       propertyPath: loadingScreen
