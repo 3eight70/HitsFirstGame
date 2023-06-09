@@ -1,52 +1,64 @@
 
 using UnityEngine;
-
+using System.Collections.Generic;
+using System.Linq;
+using System;
+using System.Collections;
 
 public class Board : MonoBehaviour
 {
     public GameObject cellPrefab; // Drag your cell prefab here
     public int boardSize = 8;
-
+    public GameObject[,] cells;
+    ClickAndMove cam;
     void Start()
     {
-
+        cam = new ClickAndMove(this);
         GenerateBoard();
     }
 
     void GenerateBoard()
     {
+        cells = new GameObject[boardSize, boardSize];
         for (int x = 0; x < boardSize; x++)
         {
             for (int y = 0; y < boardSize; y++)
             {
                 // Instantiate a cell at each position
-                GameObject cell = Instantiate(cellPrefab, new Vector2(x * (float)0.9791937 - (float)3.44, y * (float)0.975811 - (float)3.44), Quaternion.identity);
+                GameObject cell = Instantiate(cellPrefab, new Vector2(x * (float)0.9791937 - (float)3.43, y * (float)0.975811 - (float)3.43), Quaternion.identity);
+                //GameObject cell = Instantiate(cellPrefab, new Vector2(x * (float)0.95 - (float)3.43, y * (float)0.95 - (float)3.43), Quaternion.identity);
                 cell.transform.parent = this.transform; // Set the cell's parent to the board
 
                 // Optional: Give each cell a name in the format "Cell X Y" for easier debugging
                 cell.name = "Cell " + x + " " + y;
+
+                cells[x, y] = cell;
             }
         }
     }
 
-    ClickAndMove cam = new ClickAndMove();
+    
     void Update()
     {
         cam.Action();
     }
 }
 
-class ClickAndMove
+public class ClickAndMove
 {
-    State state;
+    public State state;
     GameObject item;
     Vector2 offset;
     GameObject selectedCell;
-
-    public ClickAndMove()
+    CheckerMoveCalculator moveCalculator;
+    public VerySmartMachine machine;
+    public int size = 8;
+    public ClickAndMove(Board board)
     {
         state = State.none;
         item = null;
+        moveCalculator = new CheckerMoveCalculator(this);
+        machine = new VerySmartMachine(board, this);
 
     }
 
@@ -56,32 +68,69 @@ class ClickAndMove
     {
         switch (state)
         {
-            case State.none:
+            case State.none: // Состояние спокойствия (то есть когда мы ничего не делаем - ни пользователь, ни ИИшка)
                 if (IsMouseButtonPressed())
                     pickup();
                 break;
 
-            case State.chosen:
+            case State.chosen: // Состояние когда пользователь выбрал шашку, тогда ждем следующее нажатие, чтобы передвинуть шашку
                 if (IsMouseButtonPressed())
                     move();
 
                 break;
+            case State.machine: // Состояние, когда пора отдавать данные ИИшке для принятия решения
+                //Debug.Log("Computer turn");
+                //machine.ShowSituation();
+                
+                machine.MoveMaker();
+                
+                break;
         }
     }
 
-    bool IsMouseButtonPressed()
+   
+
+    public Transform[,] CheckerAnalyzer() { // Создаем матрицу текущего состояния доски
+        Transform[,] analyzedboard = new Transform[size, size];
+        for (int x = 0; x < 8; x++)
+        {
+            for (int y = 0; y < 8; y++)
+            {
+                // Instantiate a cell at each position
+                Transform curchecker = GetCheckerAt(new Vector2(x * (float)0.9791937 - (float)3.43, y * (float)0.975811 - (float)3.43));
+                
+
+                analyzedboard[x, y] = curchecker;
+                //Debug.Log($"{8-y-1} {x} {curchecker}");
+            }
+        }
+        return analyzedboard;
+    }
+
+
+    public bool IsMouseButtonPressed()
     {
         return Input.GetMouseButtonDown(0);
     }
 
-    Vector2 GetClickPosition()
+    public Vector2 GetClickPosition()
     {
         return Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
 
-    Transform GetCheckerAt(Vector2 position)
+    public Transform GetCheckerAt(Vector2 position)
     {
-        int layerMask = LayerMask.GetMask("Checker"); // Only interact with the Checkers layer
+        int layerMask = LayerMask.GetMask("Checker"); // Шашка из соответствующего слоя
+        Collider2D hitCollider = Physics2D.OverlapPoint(position, layerMask);
+        
+        if (hitCollider == null)
+            return null;
+        return hitCollider.transform;
+    }
+
+    public Transform GetCellAt(Vector2 position)
+    {
+        int layerMask = LayerMask.GetMask("Cells"); // Клетка из соответствующего слоя
         Collider2D hitCollider = Physics2D.OverlapPoint(position, layerMask);
 
         if (hitCollider == null)
@@ -89,22 +138,14 @@ class ClickAndMove
         return hitCollider.transform;
     }
 
-    Transform GetCellAt(Vector2 position)
-    {
-        int layerMask = LayerMask.GetMask("Cells"); // Only interact with the Cells layer
-        Collider2D hitCollider = Physics2D.OverlapPoint(position, layerMask);
-
-        if (hitCollider == null)
-            return null;
-        return hitCollider.transform;
-    }
-
-    void pickup()
+    public void pickup()
     {
         Vector2 clickPosition = GetClickPosition();
         Transform clickedItem = GetCheckerAt(clickPosition);
 
-        if (clickedItem == null || clickedItem.tag == "WhiteChecker")
+        //if (clickedItem == null || clickedItem.tag == "WhiteChecker")
+        //return;
+        if (clickedItem == null)
             return;
 
         // Get the cell under the checker and change its color
@@ -116,6 +157,8 @@ class ClickAndMove
             if (cellRenderer != null)
             {
                 cellRenderer.color = Color.yellow;
+                moveCalculator.CalculatePossibleMoves(clickedItem.gameObject);
+                moveCalculator.HighlightPossibleMoves(clickedItem.gameObject);
             }
         }
 
@@ -126,7 +169,7 @@ class ClickAndMove
         Debug.Log("Picked " + item.name);
     }
 
-    void move()
+    public void move()
     {
         Vector2 clickPosition = GetClickPosition();
 
@@ -138,6 +181,7 @@ class ClickAndMove
         {
             if (selectedCell != null)
             {
+                
                 SpriteRenderer cellRenderer = selectedCell.GetComponent<SpriteRenderer>();
                 if (cellRenderer != null)
                 {
@@ -145,9 +189,12 @@ class ClickAndMove
                     cellRenderer.color = Color.clear;
                 }
             }
+            moveCalculator.ClearPossibleMoves(item);
             pickup();
             return;
         }
+        if (clickedCell == null || !moveCalculator.IsValidMove(item, clickedCell.gameObject) && item.transform.tag != "WhiteChecker")
+            return;
         if (clickedChecker != null)
         {
             Debug.Log("Cannot move to " + clickPosition + " because there's already a checker there.");
@@ -170,19 +217,558 @@ class ClickAndMove
             }
         }
 
+        float diff = Math.Abs(clickedCell.position[0] - item.transform.position[0]);
         item.transform.position = clickedCell.position;
+        
+        
+        moveCalculator.RemoveJumpedOverChecker(clickedCell.gameObject);
+        moveCalculator.ClearPossibleMoves(item);
+        moveCalculator.CalculatePossibleMoves(item);
 
+        if (moveCalculator.HasJumpCells(clickedCell.gameObject)==false || diff > (float)0.8){
+            moveCalculator.RemoveJumpedOverChecker(clickedCell.gameObject);
+            moveCalculator.ClearPossibleMoves(item);
+            state = State.machine;
+            return;
+        }
         state = State.none;
-        item = null;
 
+        moveCalculator.ClearPossibleMoves(item);
+        item = null;
         Debug.Log("Moved to " + clickPosition);
     }
 
 
 
-    enum State
+    public enum State
     {
         none,
-        chosen
+        chosen,
+        machine
     }
+}
+
+
+public class CheckerMoveCalculator
+{
+    //private Dictionary<GameObject, List<GameObject>> possibleMoves = new Dictionary<GameObject, List<GameObject>>();
+    private Dictionary<GameObject, List<GameObject>> possibleMoves = new Dictionary<GameObject, List<GameObject>>();
+    private Dictionary<GameObject, GameObject> jumpOverCheckers = new Dictionary<GameObject, GameObject>();
+  
+    private ClickAndMove clickAndMove;
+
+    public CheckerMoveCalculator(ClickAndMove clickAndMove)
+    {
+        this.clickAndMove = clickAndMove;
+    }
+
+    public void RemoveJumpedOverChecker(GameObject cell)
+    {
+        if (jumpOverCheckers.ContainsKey(cell))
+        {
+            GameObject.Destroy(jumpOverCheckers[cell]);
+            jumpOverCheckers.Remove(cell);
+        }
+    }
+
+    public void CalculatePossibleMoves(GameObject checker)
+    {
+        Vector2 checkerPosition = checker.transform.position;
+
+        List<GameObject> nearbyCells = new List<GameObject>();
+        List<GameObject> jumpOverCells = new List<GameObject>();
+
+        for (int dx = -1; dx <= 1; dx = dx + 2)
+        {
+            for (int dy = -1; dy <= 1; dy = dy + 2)
+            {
+                Vector2 nearbyPosition = new Vector2(checkerPosition.x + dx, checkerPosition.y + dy);
+                Transform nearbyCell = this.clickAndMove.GetCellAt(nearbyPosition);
+                if (nearbyCell != null && nearbyCell.gameObject != checker)
+                {
+                    // Check if there's an enemy checker in the cell and if the jump position is inside the board
+                    Vector2 jumpPosition = new Vector2(checkerPosition.x + 2 * dx, checkerPosition.y + 2 * dy);
+                    Transform checkerInCell = this.clickAndMove.GetCheckerAt(nearbyPosition);
+                    Transform cellInJumpPosition = this.clickAndMove.GetCellAt(jumpPosition);
+                    if (checkerInCell != null && checkerInCell.gameObject.tag != checker.tag && cellInJumpPosition != null)
+                    {
+                        if (this.clickAndMove.GetCheckerAt(jumpPosition) == null)
+                        {
+                            jumpOverCells.Add(cellInJumpPosition.gameObject);
+                            jumpOverCheckers[cellInJumpPosition.gameObject] = checkerInCell.gameObject;
+                        }
+                    }
+                    else
+                    {
+                        nearbyCells.Add(nearbyCell.gameObject);
+                    }
+                }
+            }
+        }
+
+        // If there are jump over moves, add only them. Otherwise, add the nearby cells
+        if (jumpOverCells.Count > 0)
+        {
+            possibleMoves[checker] = jumpOverCells;
+        }
+        else
+        {
+            possibleMoves[checker] = nearbyCells.Where(cell =>
+                (checker.transform.position.y < cell.transform.position.y) && this.clickAndMove.GetCheckerAt(cell.transform.position) == null).ToList();
+        }
+    }
+
+
+    public void HighlightPossibleMoves(GameObject checker)
+    {
+        foreach (GameObject cell in possibleMoves[checker])
+        {
+            SpriteRenderer cellRenderer = cell.GetComponent<SpriteRenderer>();
+            if (cellRenderer != null)
+            {
+                cellRenderer.color = Color.yellow;
+            }
+        }
+    }
+
+
+    public bool HasJumpCells(GameObject cell)
+    {
+        //return jumpOverCheckers.C(cell);
+        //return jumpOverCheckers.ContainsValue(cell);
+        return jumpOverCheckers.Count > 0;
+    }
+
+    public void ClearPossibleMoves(GameObject checker)
+    {
+        if (possibleMoves.ContainsKey(checker))
+        {
+            foreach (GameObject cell in possibleMoves[checker])
+            {
+                SpriteRenderer cellRenderer = cell.GetComponent<SpriteRenderer>();
+                if (cellRenderer != null)
+                {
+                    cellRenderer.color = Color.clear;
+                }
+            }
+            possibleMoves.Remove(checker);
+        }
+    }
+
+    public bool IsValidMove(GameObject checker, GameObject cell)
+    {
+        return possibleMoves.ContainsKey(checker) && possibleMoves[checker].Contains(cell);
+    }
+}
+
+public class VerySmartMachine
+{
+    private Board board;
+    private const int BoardSize = 8;
+    private int[,] numeralBoard = new int[8, 8];
+    private ClickAndMove clickandmove;
+
+    private Dictionary<GameObject, GameObject> jumpOverMachineCheckers = new Dictionary<GameObject, GameObject>();
+
+    public VerySmartMachine(Board board, ClickAndMove cam)
+    {
+        this.board = board;
+        this.clickandmove = cam;
+
+    }
+
+    public void UpdateBoard()
+    {
+        Transform[,] currentcheckers = clickandmove.CheckerAnalyzer();
+        for (int x = 0; x < 8; x++)
+        {
+            for (int y = 0; y < 8; y++)
+            {
+                //Transform ischecker = clickandmove.GetCheckerAt(board.cells[x, y].transform.position);
+                Transform ischecker = currentcheckers[x, y];
+                //int saved_x = x;
+                //x = 8 - y- 1;
+                //y = saved_x;
+                //y = 8 - saved_x - 1;
+                int new_x = 8 - y - 1;
+                int new_y = x;
+                if (ischecker != null)
+                {
+                    if (ischecker.tag == "Checker")
+                    {
+                        numeralBoard[new_x, new_y] = 1;
+                    }
+                    else
+                    {
+                        numeralBoard[new_x, new_y] = -1;
+                    }
+                }
+                else
+                {
+                    numeralBoard[new_x, new_y] = 0;
+                }
+            }
+        }
+    }
+
+    public void ShowSituation()
+    {
+        //UpdateBoard(); // Updating the board
+        string boardString = "";
+        for (int x = 0; x < 8; x++)
+        {
+            for (int y = 0; y < 8; y++)
+            {
+                boardString += numeralBoard[x, y] + " ";
+            }
+            boardString += "\n";
+        }
+        Debug.Log(boardString);
+    }
+
+    public bool CheckPosition((int, int) position)
+    {
+        return position.Item1 >= 0 && position.Item1 < 8 && position.Item2 >= 0 && position.Item2 < 8;
+    }
+
+    public List<(int, int)> PossibleMoves(int[,] board, (int, int) currentPosition, int isUser)
+    {
+        List<(int, int)> moves = new List<(int, int)> { (-1, 1), (-1, -1), (-2, 2), (-2, -2), (2, -2), (2, 2) };
+        List<(int, int)> resultPossibles = new List<(int, int)>();
+        List<int> indexesMemory = new List<int>();
+        int[,] new_board = (int[,])board.Clone(); 
+        if (isUser == 0)
+        {
+            return new List<(int, int)>();
+        }
+        int flag = 0;
+        for (int ind = 0; ind < moves.Count; ind++)
+        {
+            var move = moves[ind];
+
+            if ((ind >= 2) && ((indexesMemory.Contains(0)) || (indexesMemory.Contains(1))))
+            {
+                continue;
+            }
+            var nextMove = (currentPosition.Item1 + move.Item1 * isUser, currentPosition.Item2 + move.Item2 * isUser);
+            
+            if (CheckPosition(nextMove) && new_board[nextMove.Item1, nextMove.Item2] == 0)
+            {
+                
+                if (Math.Abs(nextMove.Item1 - currentPosition.Item1) == 2 && Math.Abs(nextMove.Item2 - currentPosition.Item2) == 2)
+                {
+                    if (new_board[(currentPosition.Item1 + nextMove.Item1) / 2, (currentPosition.Item2 + nextMove.Item2) / 2] == isUser ||
+                        new_board[(currentPosition.Item1 + nextMove.Item1) / 2, (currentPosition.Item2 + nextMove.Item2) / 2] == 0)
+                    {
+                        continue;
+                    }
+                    flag = 1;
+                }
+                resultPossibles.Add(nextMove);
+                indexesMemory.Add(ind);
+                //Debug.Log(currentPosition + " " + nextMove);
+            }
+        }
+        if (flag == 1)
+        {
+            return resultPossibles.Where(obj => (Math.Abs(obj.Item1 - currentPosition.Item1) == 2)).ToList();
+        }
+                
+        return resultPossibles;
+    }
+
+    public List<(int, int)> GetPairPosesOfSide(int[,] board, int side)
+    {
+        List<(int, int)> poses = new List<(int, int)>();
+        int GLob = 0;
+        List<(int, int)> MoreGoodposes = new List<(int, int)>();
+        for (int x = 0; x<8; x++)
+        {
+            for (int y = 0; y < 8; y++)
+            {
+                if (board[x, y] == side)
+                {
+                    poses.Add((x, y));
+                    List<(int, int)> posmoves = PossibleMoves(board, (x, y), side);
+                    
+                    foreach (var element in posmoves)
+                    {
+                        if (Math.Abs(element.Item1 - x) == 2)
+                        {
+                            Debug.Log("Good");
+                            GLob = 1;
+                            MoreGoodposes.Add((x, y));
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        if (GLob == 1)
+        {
+            return MoreGoodposes;
+        }
+        
+        return poses;
+    }
+
+
+
+    public List<(int, int)> MachineCheckers()
+    {
+        List<(int, int)> selfCheckers = new List<(int, int)>();
+        for (int x = 0; x < 8; x++)
+        {
+            for (int y = 0; y < 8; y++)
+            {
+                var cell = (x, y);
+                Debug.Log(cell);
+                if (numeralBoard[x, y] == -1)
+                {
+
+                    selfCheckers.Add(cell);
+                }
+            }
+        }
+        return selfCheckers;
+    }
+
+    public (int, int) ConvertToCellCord((int, int) pair)
+    {
+        return (pair.Item2, 7 - pair.Item1);
+    }
+
+    public Transform GetWhiteChecker(Vector2 position)
+    {
+        int layerMask = LayerMask.GetMask("Checker"); // Only interact with the Checkers layer
+        Collider2D hitCollider = Physics2D.OverlapPoint(position, layerMask);
+
+        if (hitCollider == null || hitCollider.transform.tag == "Checker")
+            return null;
+        return hitCollider.transform;
+    }
+    public Transform GetBlackChecker(Vector2 position)
+    {
+        int layerMask = LayerMask.GetMask("Checker"); // Only interact with the Checkers layer
+        Collider2D hitCollider = Physics2D.OverlapPoint(position, layerMask);
+
+        if (hitCollider == null || hitCollider.transform.tag == "WhiteChecker")
+            return null;
+        return hitCollider.transform;
+    }
+    public void MoveMaker()
+    {
+        
+        UpdateBoard();
+        ShowSituation();
+        var pair = GeniusMove(numeralBoard, 5, -1);
+        Debug.Log(pair[0] + " " + pair[1]);
+        var cellpair = ConvertToCellCord(pair[0]);
+        Transform pickedChecker = GetWhiteChecker(this.board.cells[cellpair.Item1, cellpair.Item2].transform.position);
+
+      
+        var move = pair[1];
+        var cellmove = ConvertToCellCord(move);
+
+       
+        Transform targetcell = board.cells[cellmove.Item1, cellmove.Item2].transform;
+
+        if (Math.Abs(pair[1].Item1 - pair[0].Item1) == 2 && Math.Abs(pair[1].Item2 - pair[0].Item2) == 2)
+        {
+          
+            var oppcords = ((pair[0].Item1 + pair[1].Item1) / 2, (pair[0].Item2 + pair[1].Item2) / 2);
+            var oppospair = ConvertToCellCord(oppcords);
+           
+            Transform opposChecker = GetBlackChecker(this.board.cells[oppospair.Item1, oppospair.Item2].transform.position);
+            
+            GameObject.Destroy(opposChecker.gameObject);
+        }
+
+        pickedChecker.position = targetcell.position;
+        clickandmove.state = ClickAndMove.State.none;
+        
+    }
+
+    public int SituationController(int[,] board, int side_of_attacker)
+    {
+        int users = 0;
+        int enemy = 0;
+        for (int x = 0; x < 8; x++)
+        {
+            for (int y = 0; y < 8; y++)
+            {
+                if (board[x,y] == side_of_attacker)
+                    users++;
+                if (board[x,y] == -1 * side_of_attacker)
+                    enemy++;
+            }
+        }
+        return users - enemy;
+    }
+
+
+    public string movesshower(List<(int, int)> moves)
+    {
+        string res = "";
+        foreach (var el in moves)
+        {
+            res += el.ToString() + " ";
+        }
+        return res;
+    }
+
+    public int[,] process_move(int[,] board, (int, int) currentposition, (int, int) movetarget, int is_user)
+    {
+        int i = currentposition.Item1;
+        int j = currentposition.Item2;
+        int[,] new_board = (int[,])board.Clone();
+        new_board[i, j] = 0;
+        new_board[movetarget.Item1, movetarget.Item2] = is_user;
+
+        //if (movetarget.Item1 == -2 && movetarget.Item2 == 2 || movetarget.Item1 == -2 && movetarget.Item2 == -2)
+        //{
+        //board[movetarget.Item1 - is_user, movetarget.Item2 - is_user] = 0;
+        //}
+
+        if (Math.Abs(movetarget.Item1 - i) == 2 && Math.Abs(movetarget.Item2 - j) == 2)
+        {
+            new_board[(i + movetarget.Item1) / 2, (j + movetarget.Item2) / 2] = 0;
+        }
+        return new_board;
+    }
+
+    public bool bad_cell(int[,] board, (int, int) currentposition, int is_user)
+    {
+        return PossibleMoves(board, currentposition, is_user).Count == 0;
+    }
+
+    public float lose_condition(int[,] board)
+    {
+        int users = 0;
+        int enemy = 0;
+        for (int x = 0; x < 8; x++)
+        {
+            for (int y = 0; y < 8; y++)
+            {
+                if (board[x,y] == 1 && bad_cell(board, (x, y), 1)==false)
+                    users++;
+                if (board[x,y] == -1 && bad_cell(board, (x,y), -1)==false)
+                    enemy++;
+            }
+        }
+        if (users == 0 || enemy == 0)
+            return 1;
+        return 0;
+    }
+
+
+    public float minimax_algo(int[,] board, int depth, int maximizing_side)
+    {
+        if (depth == 0 || lose_condition(board) == 1)
+        {
+            //return lose_condition(board);
+           
+            return SituationController(board, -1);
+        }
+
+        if (maximizing_side == -1)
+        {
+            float maxscore = float.NegativeInfinity;
+            foreach (var pos in GetPairPosesOfSide(board, maximizing_side))
+            {
+                List<(int, int)> posmoves = PossibleMoves(board, pos, maximizing_side);
+                //Debug.Log($"{pos} {movesshower(posmoves)}");
+                foreach (var move in posmoves)
+                {
+                    int[,] updatedboard = process_move(board, pos, move, maximizing_side);
+                    float eval = minimax_algo(updatedboard, depth - 1, 1);
+                    //Debug.Log("��� " + pos + " - " + move + " ���� " + eval);
+                    maxscore = Math.Max(maxscore, eval);
+                }
+                
+            }
+            return maxscore;
+        }
+        else
+        {
+            float minscore = float.PositiveInfinity;
+            foreach (var pos in GetPairPosesOfSide(board, maximizing_side))
+            {
+                List<(int, int)> posmoves = PossibleMoves(board, pos, maximizing_side);
+                foreach (var move in posmoves)
+                {
+                    int[,] updatedboard = process_move(board, pos, move, maximizing_side);
+                    float eval = minimax_algo(updatedboard, depth - 1, -1);
+                    //Debug.Log("��� " + pos + " - " + move + " ���� " + eval);
+                    minscore = Math.Min(minscore, eval);
+                }
+
+            }
+            return minscore;
+        }
+    }
+
+    public List<(int, int)> GeniusMove(int[,] board, int depth, int maximizing_side)
+    {
+        List<(int, int)> geniusmove = new List<(int, int)>();
+        
+        if (maximizing_side == -1)
+        {
+            float bestMoveEv = float.NegativeInfinity;
+            foreach (var pos in GetPairPosesOfSide(board, maximizing_side))
+            {
+                
+                List<(int, int)> posmoves = PossibleMoves(board, pos, maximizing_side);
+                foreach (var move in posmoves)
+                {
+                    //ShowSituation();
+                    //Debug.Log(GetPairPosesOfSide(board, maximizing_side).Count);
+                    //Debug.Log(pos + ": " + move);
+                    int[,] updatedboard = process_move(board, pos, move, maximizing_side);
+                    int[,] copied = (int[,])updatedboard;
+                    //float eval = minimax_algo(updatedboard, depth - 1, 1);
+                    float eval = minimax_algo(copied, depth - 1, 1);
+                    //Debug.Log(eval);
+                    if (eval > bestMoveEv)
+                    {
+                        bestMoveEv = eval;
+                        geniusmove.Add(pos);
+                        geniusmove.Add(move);
+                    }
+                }
+
+            }
+        }
+        else
+        {
+            float bestMoveEv = float.PositiveInfinity;
+            foreach (var pos in GetPairPosesOfSide(board, maximizing_side))
+            {
+                List<(int, int)> posmoves = PossibleMoves(board, pos, maximizing_side);
+                foreach (var move in posmoves)
+                {
+                    //Debug.Log(pos + ": " + move);
+                    int[,] updatedboard = process_move(board, pos, move, maximizing_side);
+                    int[,] copied = (int[,])updatedboard;
+                    //float eval = minimax_algo(updatedboard, depth - 1, -1);
+                    float eval = minimax_algo(copied, depth - 1, -1);
+                    //Debug.Log(eval);
+                    if (eval < bestMoveEv)
+                    {
+                        bestMoveEv = eval;
+                        geniusmove.Add(pos);
+                        geniusmove.Add(move);
+                    }
+                }
+
+            }
+        }
+        return geniusmove;
+    }
+
+
+
+
+
+
 }
