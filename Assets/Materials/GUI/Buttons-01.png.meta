@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ef9a7eec6efcf4e46abc0fe294a8634b
+guid: 102cb4b45c5ce5a41bb4f669756c38ea
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -103,70 +103,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: TopDownHouse_FurnitureState1_0
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 32
-        width: 48
-        height: 11
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ebed6039a4e73fc479917cf35e8bc1fb
-      internalID: 2063278858
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: TopDownHouse_FurnitureState1_1
-      rect:
-        serializedVersion: 2
-        x: 144
-        y: 176
-        width: 16
-        height: 48
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b85035453c46b6b4ba3d95bfd0e75189
-      internalID: 47733894
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: TopDownHouse_FurnitureState1_2
-      rect:
-        serializedVersion: 2
-        x: 49
-        y: 128
-        width: 14
-        height: 44
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ea549bcd0c73fbb4f9a759db86e38560
-      internalID: -460316827
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones: []
@@ -177,10 +114,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      TopDownHouse_FurnitureState1_0: 2063278858
-      TopDownHouse_FurnitureState1_1: 47733894
-      TopDownHouse_FurnitureState1_2: -460316827
+    nameFileIdTable: {}
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

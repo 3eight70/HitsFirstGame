@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f4570329caa53d54290303a03c8f8a44
+guid: 534d8800b5862504d8cc8aef26f59e40
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -20,12 +20,11 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
-    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMipmapLimit: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -48,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 64
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -64,7 +63,6 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
-  swizzle: 50462976
   cookieLightType: 0
   platformSettings:
   - serializedVersion: 3
@@ -77,7 +75,6 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
-    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -90,7 +87,6 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
-    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -103,20 +99,19 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
-    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: TopDownHouse_FloorsAndWalls_0
+      name: Icons-01_0
       rect:
         serializedVersion: 2
-        x: 144
-        y: 16
-        width: 64
-        height: 47
+        x: 1242
+        y: 2576
+        width: 127
+        height: 177
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,104 +119,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 77215ace9f30c85448973f5d4102022a
-      internalID: -183735070
+      spriteID: 0d6c65d1d6ca98b41be44334f4a40654
+      internalID: -645860473
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TopDownHouse_FloorsAndWalls_1
+      name: Icons-01_1
       rect:
         serializedVersion: 2
-        x: 80
-        y: 16
-        width: 64
-        height: 47
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: afb24f141306a1e4a9dc05b09078f0af
-      internalID: -1865188848
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: TopDownHouse_FloorsAndWalls_2
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 16
-        width: 64
-        height: 48
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 19702a07642180a4b9a5c823aec68916
-      internalID: 335080990
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: TopDownHouse_FloorsAndWalls_3
-      rect:
-        serializedVersion: 2
-        x: 208
-        y: 16
-        width: 64
-        height: 47
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 46c685fd8f324f44d8c7ae95f55e8cd7
-      internalID: 45964642
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: TopDownHouse_FloorsAndWalls_4
-      rect:
-        serializedVersion: 2
-        x: 80
-        y: 63
-        width: 64
-        height: 65
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 505605af3626b414fa3db777bbcfb741
-      internalID: 1683751338
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: TopDownHouse_FloorsAndWalls_5
-      rect:
-        serializedVersion: 2
-        x: 80
-        y: 93
-        width: 64
-        height: 35
+        x: 1243
+        y: 719
+        width: 126
+        height: 178
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -229,8 +140,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: aba27fd5ab51e24469b12ff2230abd80
-      internalID: -1250969452
+      spriteID: 8299c6a211b6a7145bd86484eae26d65
+      internalID: 1535384094
       vertices: []
       indices: 
       edges: []
@@ -246,14 +157,11 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      TopDownHouse_FloorsAndWalls_0: -183735070
-      TopDownHouse_FloorsAndWalls_1: -1865188848
-      TopDownHouse_FloorsAndWalls_2: 335080990
-      TopDownHouse_FloorsAndWalls_3: 45964642
-      TopDownHouse_FloorsAndWalls_4: 1683751338
-      TopDownHouse_FloorsAndWalls_5: -1250969452
-  mipmapLimitGroupName: 
+      Icons-01_0: -645860473
+      Icons-01_1: 1535384094
+  spritePackingTag: 
   pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
