@@ -14,11 +14,13 @@ namespace BullsCows
     public class AlgorithmAnswer
     {
         public string Text;
+        public string ExtraText;
         public AlgorithmAnswerStatus Status;
 
         public AlgorithmAnswer()
         {
             Text = "";
+            ExtraText = "";
             Status = AlgorithmAnswerStatus.Default;
         }
     }

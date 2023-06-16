@@ -13,22 +13,41 @@ namespace BullsCows
         public Animator ErrorAnimator;
         public InputField UserNumber;
         public GameObject TextFieldPrefab;
-        public Transform TextFieldContainer;
+        public Text ErrorText;
+        public Text WinText;
+        public Transform AnswersContainer;
         private Algorithm Algorithm;
 
-        private Text CreateTextField()
+        private void AddAnswer(string answerText)
         {
-            const int defaultMarginTop = 30;
+            Text[] textFields = AnswersContainer.GetComponentsInChildren<Text>();
 
-            float marginTop = (defaultMarginTop * Algorithm.AttemptsNum);
+            var currentAnswerIndex = 2 * Algorithm.AttemptsNum - 1;
+            // if (currentAnswerIndex >= textFields.Length)
+            // {
+            //     return;
+            // }
 
-            GameObject newTextField = Instantiate(TextFieldPrefab, TextFieldContainer.transform);
-            newTextField.transform.localPosition = Vector3.zero;
+            Text textField = textFields[currentAnswerIndex];
 
-            Text textFieldText = newTextField.GetComponentInChildren<Text>();
-            textFieldText.transform.localPosition = new Vector3(0f, -marginTop, 0f);
+            if (textField != null && textField.name != "Index")
+            {
+                textField.text = answerText;
+            }
+        }
 
-            return textFieldText;
+        private void OnUserWin(string text)
+        {
+            WinText.text = text;
+            WinAnimator.SetTrigger("OpenWinPopup");
+
+            UserNumber.text = "";
+        }
+
+        private void OnTriggerErrorOrLose(string text)
+        {
+            ErrorText.text = text;
+            ErrorAnimator.SetTrigger("OnErrorUserNumber");
         }
 
         public void OnUserTryClick()
@@ -37,16 +56,14 @@ namespace BullsCows
 
             if (result.Status == AlgorithmAnswerStatus.Error)
             {
-                ErrorAnimator.SetTrigger("OnErrorUserNumber");
+                OnTriggerErrorOrLose(result.ExtraText);
 
                 return;
             }
 
             if (result.Status == AlgorithmAnswerStatus.Incorrect)
             {
-                Text textFieldText = CreateTextField();
-                textFieldText.text = result.Text;
-
+                AddAnswer(result.Text);
                 UserNumber.text = "";
 
                 return;
@@ -54,27 +71,39 @@ namespace BullsCows
 
             if (result.Status == AlgorithmAnswerStatus.Win)
             {
-                WinAnimator.SetTrigger("OpenWinPopup");
+                OnUserWin(result.ExtraText);
 
-                UserNumber.text = "";
-                
                 return;
             }
 
             if (result.Status == AlgorithmAnswerStatus.Lose)
             {
-                ResetGame();
+                AddAnswer(result.Text);
+                OnTriggerErrorOrLose(result.ExtraText);
+
                 return;
             }
         }
 
-        private void ResetGame()
+        public void ResetGame()
         {
-            for (int i = TextFieldContainer.transform.childCount - 1; i >= 2; i--)
-            {
-                GameObject textField = TextFieldContainer.transform.GetChild(i).gameObject;
+            Text[] textFields = AnswersContainer.GetComponentsInChildren<Text>();
 
-                Destroy(textField);
+            foreach (var textField in textFields)
+            {
+                if (textField != null && textField.name != "Index")
+                {
+                    textField.text = "";
+                }
+            }
+
+            Algorithm = new Algorithm();
+        }
+
+        public void OnErrorOrLosePopupClose()
+        {
+            if (Algorithm.isLose()) {
+                ResetGame();
             }
         }
 

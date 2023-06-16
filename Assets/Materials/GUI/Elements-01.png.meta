@@ -138,11 +138,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CloseRules
+      name: AnswerPanel
       rect:
         serializedVersion: 2
-        x: 1370
-        y: 1625
+        x: 1368
+        y: 1633
         width: 1015
         height: 415
       alignment: 0
@@ -209,7 +209,7 @@ TextureImporter:
         width: 593
         height: 1058
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -232,7 +232,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      CloseRules: 1460989555
+      AnswerPanel: 1460989555
       Elements-01_1: 305354134
       Elements-01_3: -1495963905
       Elements-01_4: 2061919663

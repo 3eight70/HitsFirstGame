@@ -7,7 +7,7 @@ namespace BullsCows
 {
     public class Algorithm
     {
-        private const int MaxAttemptsNum = 10;
+        private const int MaxAttemptsNum = 7;
         public int AttemptsNum { get; set; }
         private string hiddenNumber;
         private static System.Random random;
@@ -86,6 +86,11 @@ namespace BullsCows
             return userNumber + String.Format(" - {0} и {1} ", CorrectBullsWriting(bullsNum), CorrectCowsWriting(cowsNum));
         }
 
+        public bool isLose()
+        {
+            return AttemptsNum == MaxAttemptsNum;
+        }
+
         public AlgorithmAnswer Execute(string userNumber)
         {
             AlgorithmAnswer answer = new AlgorithmAnswer();
@@ -93,25 +98,27 @@ namespace BullsCows
             if (!CheckInput(userNumber))
             {
                 answer.Status = AlgorithmAnswerStatus.Error;
-                answer.Text = "Введите трехзначное число без повторений";
+                answer.ExtraText = "Введите трехзначное число без повторений";
+                return answer;
             }
-            else if (userNumber == hiddenNumber)
+
+            answer.Text = GetBullsCows(userNumber);
+            AttemptsNum++;
+
+            if (userNumber == hiddenNumber)
             {
                 answer.Status = AlgorithmAnswerStatus.Win;
-                answer.Text = "Поздравляю с победой";
+                answer.ExtraText = String.Format("Поздравляю, число {0} отгадано. Число для кода - 1", hiddenNumber);
             }
             else if (AttemptsNum == MaxAttemptsNum)
             {
                 answer.Status = AlgorithmAnswerStatus.Lose;
-                answer.Text = "Вы проиграли, попробуйте снова";
+                answer.ExtraText = "Вы проиграли, попробуйте снова";
             }
             else
             {
                 answer.Status = AlgorithmAnswerStatus.Incorrect;
-                answer.Text = GetBullsCows(userNumber);
             }
-
-            AttemptsNum++;
 
             return answer;
         }
