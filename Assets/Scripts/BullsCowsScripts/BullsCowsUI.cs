@@ -23,10 +23,6 @@ namespace BullsCows
             Text[] textFields = AnswersContainer.GetComponentsInChildren<Text>();
 
             var currentAnswerIndex = 2 * Algorithm.AttemptsNum - 1;
-            // if (currentAnswerIndex >= textFields.Length)
-            // {
-            //     return;
-            // }
 
             Text textField = textFields[currentAnswerIndex];
 
@@ -104,6 +100,7 @@ namespace BullsCows
         {
             if (Algorithm.isLose()) {
                 ResetGame();
+                UserNumber.text = "";
             }
         }
 

@@ -7,7 +7,7 @@ namespace BullsCows
 {
     public class Algorithm
     {
-        private const int MaxAttemptsNum = 7;
+        private const int MaxAttemptsNum = 5;
         public int AttemptsNum { get; set; }
         private string hiddenNumber;
         private static System.Random random;
@@ -16,8 +16,8 @@ namespace BullsCows
         {
             AttemptsNum = 0;
             random = new System.Random();
-            // hiddenNumber = GenerateRandomNumber().ToString();
-            hiddenNumber = "123";
+            hiddenNumber = GenerateRandomNumber().ToString();
+            // hiddenNumber = "123";
         }
 
         private static int GenerateRandomNumber()
@@ -113,7 +113,7 @@ namespace BullsCows
             else if (AttemptsNum == MaxAttemptsNum)
             {
                 answer.Status = AlgorithmAnswerStatus.Lose;
-                answer.ExtraText = "Вы проиграли, попробуйте снова";
+                answer.ExtraText = String.Format("Правильный ответ - {0}, попробуйте снова", hiddenNumber);
             }
             else
             {
