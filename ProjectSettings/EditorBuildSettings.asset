@@ -14,4 +14,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Deanery.unity
     guid: c8f3c8bfe55a3bf4f8a63f2ce6a7088d
+  - enabled: 1
+    path: Assets/Scenes/Classroom.unity
+    guid: c76014b44e609274c85cfac4f5dcc4e8
+  - enabled: 1
+    path: Assets/Scenes/Classroom 1.unity
+    guid: f330809e289ce35429a6c2463b6f22e5
+  - enabled: 1
+    path: Assets/Scenes/Classroom 2.unity
+    guid: d15ecf6413868c741a46bdfb31929534
   m_configObjects: {}
