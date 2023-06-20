@@ -125,7 +125,7 @@ TextureImporter:
         width: 314
         height: 313
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -133,6 +133,48 @@ TextureImporter:
       bones: []
       spriteID: e6868ca0def95c8c5b90ae7e8aff8a26
       internalID: -2046133718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OkeyButton
+      rect:
+        serializedVersion: 2
+        x: 293
+        y: 3522
+        width: 316
+        height: 316
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e34c620a9e45afa21be3320ebeb1485c
+      internalID: 539452380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AddButton
+      rect:
+        serializedVersion: 2
+        x: 1781
+        y: 3514
+        width: 318
+        height: 321
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3061c8fc7759977be910031e3d4e71b6
+      internalID: 1416451429
       vertices: []
       indices: 
       edges: []
@@ -148,7 +190,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      AddButton: 1416451429
       CloseBorderedIcon: -2046133718
+      OkeyButton: 539452380
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
