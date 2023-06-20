@@ -40,5 +40,15 @@ public class Hero : MonoBehaviour
     {
         rb.MovePosition(rb.position + movement.normalized * speed * Time.fixedDeltaTime);
     }
+
+    public float GetX()
+    {
+        return transform.position.x;
+    }
+    
+    public float GetY()
+    {
+        return transform.position.y;
+    }
 }
 
