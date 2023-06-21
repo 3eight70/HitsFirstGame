@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using TMPro;
 
@@ -9,16 +10,23 @@ public class Tile : MonoBehaviour
     public GameObject Visited;
     public GameObject Available;
 
+    private bool IsVisited = false;
+    private GridManager Grid;
+
+    public void SetGrid(GridManager grid) {
+        Grid = grid;
+    }
+
     public void Init(bool isProfitTile, int score)
     {
-        TextMeshProUGUI tileScore = GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshPro tileScore = GetComponentInChildren<TextMeshPro>();
 
-        Debug.Log(tileScore);
+        if (tileScore != null)
+        {
+            var sign = score > 0 ? "+" : "-";
+            tileScore.text = String.Format("{0}{1}", sign, score.ToString());
 
-        if (tileScore != null) {
-            tileScore.text = score.ToString();
-
-            // tileScore.color = isProfitTile ? ProfitTileColor : DamageTileColor;
+            tileScore.color = isProfitTile ? ProfitTileColor : DamageTileColor;
         }
     }
 
@@ -32,9 +40,23 @@ public class Tile : MonoBehaviour
         Hover.SetActive(false);
     }
 
-    public void OnClick()
+    private void UpdateVisited()
     {
-        Visited.SetActive(true);
+        if (IsVisited)
+        {
+            Visited.SetActive(false);
+            IsVisited = false;
+        }
+        else
+        {
+            Visited.SetActive(true);
+            IsVisited = true;
+        }
+    }
+
+    public void OnMouseDown()
+    {
+        UpdateVisited();
     }
 
     public void SetAvailable()
