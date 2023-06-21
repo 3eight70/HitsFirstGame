@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Checker
   - ExitPoint
+  - Toggle
+  - Slider
   layers:
   - Default
   - TransparentFX

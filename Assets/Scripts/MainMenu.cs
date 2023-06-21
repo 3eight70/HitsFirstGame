@@ -24,6 +24,5 @@ public class MainMenu : MonoBehaviour
         position.initialValue.y = PlayerPrefs.GetFloat("yPos");
         position.initialValue.z = 0;
         SceneManager.LoadScene(PlayerPrefs.GetInt("Current scene"));
-        PlayerPrefs.DeleteAll();
     }
 }

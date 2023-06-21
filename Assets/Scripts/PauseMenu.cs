@@ -45,7 +45,5 @@ public class PauseMenu : MonoBehaviour
         PlayerPrefs.SetInt("Current scene", SceneManager.GetActiveScene().buildIndex);
         PlayerPrefs.SetFloat("xPos", player.GetX());
         PlayerPrefs.SetFloat("yPos", player.GetY());
-        Debug.Log(player.GetX());
-        Debug.Log(player.GetY());
     }
 }
