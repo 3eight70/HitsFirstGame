@@ -20,12 +20,11 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
-    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMipmapLimit: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -64,7 +63,6 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
-  swizzle: 50462976
   cookieLightType: 0
   platformSettings:
   - serializedVersion: 3
@@ -77,7 +75,6 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
-    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -90,7 +87,6 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
-    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -103,7 +99,6 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
-    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -129,13 +124,6 @@ TextureImporter:
         y: 3517
         width: 314
         height: 313
-      name: Buttons-01_0
-      rect:
-        serializedVersion: 2
-        x: 790
-        y: 3513
-        width: 323
-        height: 322
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -145,8 +133,6 @@ TextureImporter:
       bones: []
       spriteID: e6868ca0def95c8c5b90ae7e8aff8a26
       internalID: -2046133718
-      spriteID: 9fcee0ae9c6db1443a8eb483abd438fa
-      internalID: 1083097577
       vertices: []
       indices: 
       edges: []
@@ -159,13 +145,6 @@ TextureImporter:
         y: 3522
         width: 316
         height: 316
-      name: Buttons-01_1
-      rect:
-        serializedVersion: 2
-        x: 791
-        y: 1656
-        width: 322
-        height: 323
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -175,8 +154,6 @@ TextureImporter:
       bones: []
       spriteID: e34c620a9e45afa21be3320ebeb1485c
       internalID: 539452380
-      spriteID: bb02e9684cc50b243a0f52f66bb1b7dc
-      internalID: -2140917094
       vertices: []
       indices: 
       edges: []
@@ -189,13 +166,6 @@ TextureImporter:
         y: 3514
         width: 318
         height: 321
-      name: Buttons-01_2
-      rect:
-        serializedVersion: 2
-        x: 296
-        y: 341
-        width: 321
-        height: 322
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -226,8 +196,6 @@ TextureImporter:
       bones: []
       spriteID: 3061c8fc7759977be910031e3d4e71b6
       internalID: 1416451429
-      spriteID: fdff07019fed9f54f819c16e8e4b92d1
-      internalID: 1460128417
       vertices: []
       indices: 
       edges: []
@@ -316,6 +284,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: YellowHouse
+      rect:
+        serializedVersion: 2
+        x: 789
+        y: 1658
+        width: 320
+        height: 324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 49e8370670442e2a29392f2ca7bd4a39
+      internalID: -973137205
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -328,9 +317,6 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       AddButton: 1416451429
-      CloseBorderedIcon: -2046133718
-      OkeyButton: 539452380
-      Buttons-01_0: 1083097577
       Buttons-01_1: -2140917094
       Buttons-01_2: 2070995139
       Buttons-01_3: 1460128417
@@ -338,8 +324,12 @@ TextureImporter:
       Buttons-01_5: 691576259
       Buttons-01_6: 1747720980
       Buttons-01_7: -1562694772
-  mipmapLimitGroupName: 
+      CloseBorderedIcon: -2046133718
+      OkeyButton: 539452380
+      YellowHouse: 1083097577
+  spritePackingTag: 
   pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

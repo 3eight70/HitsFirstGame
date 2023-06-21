@@ -15,8 +15,18 @@ public class MusicManager : MonoBehaviour
         Load();
         ValueMusic();
 
-        toggleMusic = GameObject.FindGameObjectWithTag("Toggle").GetComponent<Toggle>();
-        sliderVolumeMusic = GameObject.FindGameObjectWithTag("Slider").GetComponent<Slider>();
+        var toggle = GameObject.FindGameObjectWithTag("Toggle");
+        if (toggle != null) 
+        {
+            toggleMusic = toggle.GetComponent<Toggle>();
+        }
+
+        var slider = GameObject.FindGameObjectWithTag("Slider");
+
+        if (slider != null) 
+        {
+            sliderVolumeMusic = GameObject.FindGameObjectWithTag("Slider").GetComponent<Slider>();
+        }
     }
 
     public void SliderMusic()
