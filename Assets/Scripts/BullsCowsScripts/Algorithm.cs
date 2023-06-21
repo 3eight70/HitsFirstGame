@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
@@ -17,7 +16,6 @@ namespace BullsCows
             AttemptsNum = 0;
             random = new System.Random();
             hiddenNumber = GenerateRandomNumber().ToString();
-            // hiddenNumber = "123";
         }
 
         private static int GenerateRandomNumber()
@@ -97,8 +95,8 @@ namespace BullsCows
 
             if (!CheckInput(userNumber))
             {
-                answer.Status = AlgorithmAnswerStatus.Error;
-                answer.ExtraText = "Введите трехзначное число без повторений";
+                answer.SetError();
+
                 return answer;
             }
 
@@ -107,13 +105,11 @@ namespace BullsCows
 
             if (userNumber == hiddenNumber)
             {
-                answer.Status = AlgorithmAnswerStatus.Win;
-                answer.ExtraText = String.Format("Поздравляю, число {0} отгадано. Число для кода - 1", hiddenNumber);
+                answer.SetWin(hiddenNumber);
             }
             else if (AttemptsNum == MaxAttemptsNum)
             {
-                answer.Status = AlgorithmAnswerStatus.Lose;
-                answer.ExtraText = String.Format("Правильный ответ - {0}, попробуйте снова", hiddenNumber);
+                answer.SetLose(hiddenNumber);
             }
             else
             {
