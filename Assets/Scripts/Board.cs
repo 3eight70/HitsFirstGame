@@ -7,7 +7,7 @@ using System.Collections;
 
 public class Board : MonoBehaviour
 {
-    public GameObject cellPrefab; // Drag your cell prefab here
+    public GameObject cellPrefab; 
     public int boardSize = 8;
     public GameObject[,] cells;
     ClickAndMove cam;
@@ -40,6 +40,9 @@ public class Board : MonoBehaviour
     
     void Update()
     {
+        //cam.machine.UpdateBoard();
+      
+        
         cam.Action();
     }
 }
@@ -53,6 +56,7 @@ public class ClickAndMove
     CheckerMoveCalculator moveCalculator;
     public VerySmartMachine machine;
     public int size = 8;
+    public int repeatchecker = 0;
     public ClickAndMove(Board board)
     {
         state = State.none;
@@ -79,33 +83,17 @@ public class ClickAndMove
 
                 break;
             case State.machine: // Состояние, когда пора отдавать данные ИИшке для принятия решения
-                //Debug.Log("Computer turn");
-                //machine.ShowSituation();
-                
+                                //Debug.Log("Computer turn");
+                                //machine.ShowSituation();
+
                 machine.MoveMaker();
-                
+                //StartCoroutine(machine.MoveMaker());
+
                 break;
         }
     }
 
    
-
-    public Transform[,] CheckerAnalyzer() { // Создаем матрицу текущего состояния доски
-        Transform[,] analyzedboard = new Transform[size, size];
-        for (int x = 0; x < 8; x++)
-        {
-            for (int y = 0; y < 8; y++)
-            {
-                // Instantiate a cell at each position
-                Transform curchecker = GetCheckerAt(new Vector2(x * (float)0.9791937 - (float)3.43, y * (float)0.975811 - (float)3.43));
-                
-
-                analyzedboard[x, y] = curchecker;
-                //Debug.Log($"{8-y-1} {x} {curchecker}");
-            }
-        }
-        return analyzedboard;
-    }
 
 
     public bool IsMouseButtonPressed()
@@ -136,6 +124,16 @@ public class ClickAndMove
         if (hitCollider == null)
             return null;
         return hitCollider.transform;
+    }
+
+    public GameObject GetGOCellAt(Vector2 position)
+    {
+        int layerMask = LayerMask.GetMask("Cells"); // Клетка из соответствующего слоя
+        Collider2D hitCollider = Physics2D.OverlapPoint(position, layerMask);
+
+        if (hitCollider == null)
+            return null;
+        return hitCollider.gameObject;
     }
 
     public void pickup()
@@ -218,17 +216,20 @@ public class ClickAndMove
         }
 
         float diff = Math.Abs(clickedCell.position[0] - item.transform.position[0]);
+        machine.UpdateBoard(item.transform.position, clickedCell.position, 1);
         item.transform.position = clickedCell.position;
-        
-        
+
+
+
         moveCalculator.RemoveJumpedOverChecker(clickedCell.gameObject);
         moveCalculator.ClearPossibleMoves(item);
         moveCalculator.CalculatePossibleMoves(item);
 
-        if (moveCalculator.HasJumpCells(clickedCell.gameObject)==false || diff > (float)0.8){
+        if (moveCalculator.HasJumpCells(clickedCell.gameObject)==false && diff > (float)1.5 || diff < (float)1.6){
             moveCalculator.RemoveJumpedOverChecker(clickedCell.gameObject);
             moveCalculator.ClearPossibleMoves(item);
             state = State.machine;
+            //Debug.Log(diff);
             return;
         }
         state = State.none;
@@ -336,7 +337,9 @@ public class CheckerMoveCalculator
     {
         //return jumpOverCheckers.C(cell);
         //return jumpOverCheckers.ContainsValue(cell);
-        return jumpOverCheckers.Count > 0;
+        //return jumpOverCheckers.Count > 0;
+        Debug.Log(jumpOverCheckers);
+        return jumpOverCheckers.ContainsKey(cell);
     }
 
     public void ClearPossibleMoves(GameObject checker)
@@ -374,25 +377,96 @@ public class VerySmartMachine
     {
         this.board = board;
         this.clickandmove = cam;
-
+        BoardInit();
     }
-
-    public void UpdateBoard()
+    public void BoardInit()
     {
-        Transform[,] currentcheckers = clickandmove.CheckerAnalyzer();
+        int cnt = 0;
+        for (int x = 0; x < 8; x++)
+        {
+            for (int y = 0; y < 8; y++)
+            {
+                if (cnt == 12)
+                {
+                    return;
+                }
+                if ((x+y)%2 == 1)
+                {
+                    cnt += 1;
+                    numeralBoard[x, y] = -1;
+                    numeralBoard[7 - x, 7 - y] = 1;
+                }
+            }
+        }
+    }
+    /*public void BoardInit()
+    {
         for (int x = 0; x < 8; x++)
         {
             for (int y = 0; y < 8; y++)
             {
                 //Transform ischecker = clickandmove.GetCheckerAt(board.cells[x, y].transform.position);
-                Transform ischecker = currentcheckers[x, y];
+                Transform isBlack = GetBlackChecker(board.cells[x, y].transform.position);
+                Transform isWhite = GetWhiteChecker(board.cells[x, y].transform.position);
+                //Transform ischecker = currentcheckers[x, y];
                 //int saved_x = x;
                 //x = 8 - y- 1;
                 //y = saved_x;
                 //y = 8 - saved_x - 1;
                 int new_x = 8 - y - 1;
                 int new_y = x;
-                if (ischecker != null)
+               
+                if (isBlack != null)
+                {
+                    numeralBoard[new_x, new_y] = 1;
+                }
+                else if (isWhite != null)
+                {
+                    numeralBoard[new_x, new_y] = -1;
+                }
+                else
+                {
+                    numeralBoard[new_x, new_y] = 0;
+                }
+            }
+        }
+    }*/
+    public void UpdateBoard(Vector2 startpos, Vector2 targetpos, int isuser)
+    {
+        GameObject currentcell = clickandmove.GetGOCellAt(startpos);
+        GameObject targetcell = clickandmove.GetGOCellAt(targetpos);
+        string curname = currentcell.name;
+        string targname = targetcell.name;
+        (int, int) cords1 = UnconvertCord(((int)(curname[curname.Length - 3]-'0'), (int)(curname[curname.Length - 1] - '0')));
+        (int, int) cords2 = UnconvertCord(((int)(targname[targname.Length - 3] - '0'), (int)(targname[targname.Length - 1] - '0')));
+
+        int diffx = cords2.Item1 - cords1.Item1;
+        int diffy = cords2.Item2 - cords2.Item1;
+
+        numeralBoard[cords1.Item1, cords1.Item2] = 0;
+        numeralBoard[cords2.Item1, cords2.Item2] = isuser;
+
+        if (isuser == 1 && Math.Abs(diffx) > 1)
+        {
+            numeralBoard[(cords1.Item1 + cords2.Item1) / 2, (cords1.Item2 + cords2.Item2) / 2] = 0;
+        }
+
+
+        /*for (int x = 0; x < 8; x++)
+        {
+            for (int y = 0; y < 8; y++)
+            {
+                //Transform ischecker = clickandmove.GetCheckerAt(board.cells[x, y].transform.position);
+                Transform isBlack = GetBlackChecker(board.cells[x, y].transform.position);
+                Transform isWhite = GetWhiteChecker(board.cells[x, y].transform.position);
+                //Transform ischecker = currentcheckers[x, y];
+                //int saved_x = x;
+                //x = 8 - y- 1;
+                //y = saved_x;
+                //y = 8 - saved_x - 1;
+                int new_x = 8 - y - 1;
+                int new_y = x;
+                /*if (ischecker != null)
                 {
                     if (ischecker.tag == "Checker")
                     {
@@ -407,13 +481,28 @@ public class VerySmartMachine
                 {
                     numeralBoard[new_x, new_y] = 0;
                 }
+                if (isBlack != null)
+                {
+                    numeralBoard[new_x, new_y] = 1;
+                }
+                else if (isWhite != null)
+                {
+                    numeralBoard[new_x, new_y] = -1;
+                }
+                else
+                {
+                    numeralBoard[new_x, new_y] = 0;
+                }
             }
-        }
-    }
+        }*/
 
-    public void ShowSituation()
+            }
+
+
+
+            public void ShowSituation()
     {
-        //UpdateBoard(); // Updating the board
+
         string boardString = "";
         for (int x = 0; x < 8; x++)
         {
@@ -446,10 +535,10 @@ public class VerySmartMachine
         {
             var move = moves[ind];
 
-            if ((ind >= 2) && ((indexesMemory.Contains(0)) || (indexesMemory.Contains(1))))
-            {
-                continue;
-            }
+            //if ((ind >= 2) && ((indexesMemory.Contains(0)) || (indexesMemory.Contains(1))))
+            //{
+                //continue;
+            //}
             var nextMove = (currentPosition.Item1 + move.Item1 * isUser, currentPosition.Item2 + move.Item2 * isUser);
             
             if (CheckPosition(nextMove) && new_board[nextMove.Item1, nextMove.Item2] == 0)
@@ -495,7 +584,7 @@ public class VerySmartMachine
                     {
                         if (Math.Abs(element.Item1 - x) == 2)
                         {
-                            Debug.Log("Good");
+                            //Debug.Log("Good");
                             GLob = 1;
                             MoreGoodposes.Add((x, y));
                             break;
@@ -538,6 +627,11 @@ public class VerySmartMachine
         return (pair.Item2, 7 - pair.Item1);
     }
 
+    public (int, int) UnconvertCord((int, int) pair)
+    {
+        return (7 - pair.Item2, pair.Item1);
+    }
+
     public Transform GetWhiteChecker(Vector2 position)
     {
         int layerMask = LayerMask.GetMask("Checker"); // Only interact with the Checkers layer
@@ -556,13 +650,14 @@ public class VerySmartMachine
             return null;
         return hitCollider.transform;
     }
+
     public void MoveMaker()
     {
-        
-        UpdateBoard();
-        ShowSituation();
+
+        //UpdateBoard();
+        //ShowSituation();
         var pair = GeniusMove(numeralBoard, 5, -1);
-        Debug.Log(pair[0] + " " + pair[1]);
+        //Debug.Log(pair[0] + " " + pair[1]);
         var cellpair = ConvertToCellCord(pair[0]);
         Transform pickedChecker = GetWhiteChecker(this.board.cells[cellpair.Item1, cellpair.Item2].transform.position);
 
@@ -573,18 +668,42 @@ public class VerySmartMachine
        
         Transform targetcell = board.cells[cellmove.Item1, cellmove.Item2].transform;
 
+        int flag = 0;
         if (Math.Abs(pair[1].Item1 - pair[0].Item1) == 2 && Math.Abs(pair[1].Item2 - pair[0].Item2) == 2)
         {
-          
+            flag = 1;
             var oppcords = ((pair[0].Item1 + pair[1].Item1) / 2, (pair[0].Item2 + pair[1].Item2) / 2);
             var oppospair = ConvertToCellCord(oppcords);
-           
-            Transform opposChecker = GetBlackChecker(this.board.cells[oppospair.Item1, oppospair.Item2].transform.position);
+            Debug.Log(pair[0]);
+            Debug.Log(pair[1]);
             
+            //Transform opposChecker = null;
+            Transform opposChecker = GetBlackChecker(board.cells[oppospair.Item1, oppospair.Item2].transform.position);
+            
+            //Debug.Log(opposChecker);
             GameObject.Destroy(opposChecker.gameObject);
+            numeralBoard[oppcords.Item1, oppcords.Item2] = 0;
+            
         }
-
+        else
+        {
+            if (clickandmove.repeatchecker == 1)
+            {
+                clickandmove.state = ClickAndMove.State.none;
+                clickandmove.repeatchecker = 0;
+                return;
+            }
+        }
+       
+        UpdateBoard(pickedChecker.position, targetcell.position, -1);
         pickedChecker.position = targetcell.position;
+        
+        if (flag == 1)
+        {
+            clickandmove.repeatchecker = 1;
+            MoveMaker();
+        }
+        clickandmove.repeatchecker = 0;
         clickandmove.state = ClickAndMove.State.none;
         
     }
@@ -682,7 +801,7 @@ public class VerySmartMachine
                 {
                     int[,] updatedboard = process_move(board, pos, move, maximizing_side);
                     float eval = minimax_algo(updatedboard, depth - 1, 1);
-                    //Debug.Log("��� " + pos + " - " + move + " ���� " + eval);
+                    //Debug.Log(eval);
                     maxscore = Math.Max(maxscore, eval);
                 }
                 
