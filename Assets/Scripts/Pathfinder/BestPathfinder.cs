@@ -20,10 +20,10 @@ public class BestPathfinder
         StartPoint = Grid.GetTileAtPosition(startPointPosition);
     }
 
-    public List<TileLogic> GetBestPath()
+    public List<Tile> GetBestPath()
     {
-        List<TileLogic> from = new List<TileLogic>();
-        List<TileLogic> openSet = new List<TileLogic>();
+        List<BestTileLogic> from = new List<BestTileLogic>();
+        List<BestTileLogic> openSet = new List<BestTileLogic>();
         openSet.Add(StartPoint.Logic);
 
         while (openSet.Count > 0)
@@ -43,20 +43,20 @@ public class BestPathfinder
                 }
             }
 
-            TileLogic currentTile = openSet[win];
+            BestTileLogic currentTile = openSet[win];
             currentTile.IsVisited = true;
 
             if (currentTile.Position == EndPointPosition)
             {
-                return openSet;
+                return RecoveredPath();
             }
 
             openSet.RemoveAt(win);
             from.Add(currentTile);
             List<Tile> neighbors = Grid.GetNeighbors(currentTile.Position);
-            List<TileLogic> logicNeighbors = toLogicNeighbors(currentTile.AccScore, neighbors);
+            List<BestTileLogic> logicNeighbors = toLogicNeighbors(currentTile.AccScore, neighbors);
 
-            foreach (TileLogic neighborLogic in logicNeighbors)
+            foreach (BestTileLogic neighborLogic in logicNeighbors)
             {
 
                 if (!from.Contains(neighborLogic))
@@ -75,7 +75,7 @@ public class BestPathfinder
                     neighborLogic.G = g;
                     neighborLogic.H = CalculateHeuristic(neighborLogic, EndPoint.Logic);
                     neighborLogic.F = neighborLogic.G + neighborLogic.H;
-                    neighborLogic.PrevTileLogic = currentTile;
+                    neighborLogic.PrevBestTileLogic = currentTile;
                     neighborLogic.AccScore = currentTile.AccScore + neighborLogic.Score;
                 }
             }
@@ -84,9 +84,9 @@ public class BestPathfinder
         return null;
     }
 
-    private List<TileLogic> toLogicNeighbors(int accScore, List<Tile> neighbors)
+    private List<BestTileLogic> toLogicNeighbors(int accScore, List<Tile> neighbors)
     {
-        List<TileLogic> logicNeighbors = new List<TileLogic>();
+        List<BestTileLogic> logicNeighbors = new List<BestTileLogic>();
 
         foreach (Tile neighbor in neighbors)
         {
@@ -99,7 +99,7 @@ public class BestPathfinder
         return logicNeighbors;
     }
 
-    private int CalculateNeighborHeuristic(TileLogic from, TileLogic to)
+    private int CalculateNeighborHeuristic(BestTileLogic from, BestTileLogic to)
     {
         int xShift = Math.Abs((int)(from.Position.x - to.Position.x));
         int yShift = Math.Abs((int)(from.Position.y - to.Position.y));
@@ -107,11 +107,29 @@ public class BestPathfinder
         return to.Score;
     }
 
-    private int CalculateHeuristic(TileLogic from, TileLogic to)
+    private int CalculateHeuristic(BestTileLogic from, BestTileLogic to)
     {
         int xShift = Math.Abs((int)(from.Position.x - to.Position.x));
         int yShift = Math.Abs((int)(from.Position.y - to.Position.y));
 
         return xShift + yShift;
+    }
+
+    private List<Tile> RecoveredPath()
+    {
+        List<Tile> path = new List<Tile>();
+        Tile currentTile = EndPoint;
+
+        while (currentTile != StartPoint)
+        {
+            path.Add(currentTile);
+
+            BestTileLogic prevTileLogic = currentTile.Logic.PrevBestTileLogic;
+            Tile prevTile = Grid.GetTileAtPosition(prevTileLogic.Position);
+
+            currentTile = prevTile;
+        }
+
+        return path;
     }
 }

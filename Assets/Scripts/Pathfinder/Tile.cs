@@ -9,45 +9,27 @@ public class Tile : MonoBehaviour
     public GameObject Hover;
     public GameObject Visited;
     public GameObject Available;
+    public GameObject ErrorAvailable;
     public GameObject PartOfBestPath;
 
     private bool IsVisited = false;
+    private bool IsErrorAvailable = false;
+    private bool IsAvailable = false;
     private GridManager Grid;
     public Vector2 Position { get; private set; }
-    public TileLogic Logic { get; private set; }
+    public BestTileLogic Logic { get; private set; }
+
+    public void Init(int score, Vector2 position)
+    {
+        Position = position;
+        Logic = new BestTileLogic(Position, score);
+    }
 
     public void Update()
     {
         WatchScoreText();
         WatchIsVisited();
-    }
-
-    private void WatchIsVisited()
-    {
-        if (IsVisited) Visited.SetActive(true);
-        else Visited.SetActive(false);
-    }
-
-    public void Init(int score, Vector2 position)
-    {
-        Position = position;
-        Logic = new TileLogic(Position, score);
-    }
-
-    public void SetScore(int newScore)
-    {
-        Logic.ChangeScore(newScore);
-    }
-
-    public void SetGrid(GridManager grid)
-    {
-        Grid = grid;
-    }
-
-    public void SetStartPoint()
-    {
-        SetScore(20);
-        UpdateVisited();
+        WatchIsAvailable();
     }
 
     private void WatchScoreText()
@@ -63,6 +45,19 @@ public class Tile : MonoBehaviour
             tileScoreText.text = String.Format("{0}{1}", sign, score.ToString());
             tileScoreText.color = isProfitTile ? ProfitTileColor : DamageTileColor;
         }
+    }
+
+    private void WatchIsVisited()
+    {
+        if (IsVisited) Visited.SetActive(true);
+        else Visited.SetActive(false);
+    }
+
+    private void WatchIsAvailable()
+    {
+        // if () 
+        // if (IsVisited) Visited.SetActive(true);
+        // else Visited.SetActive(false);
     }
 
     public void OnMouseEnter()
@@ -94,4 +89,21 @@ public class Tile : MonoBehaviour
     {
         Available.SetActive(true);
     }
+
+    public void SetGrid(GridManager grid)
+    {
+        Grid = grid;
+    }
+
+    public void SetStartPoint()
+    {
+        SetScore(10);
+        UpdateVisited();
+    }
+
+    public void SetScore(int newScore)
+    {
+        Logic.ChangeScore(newScore);
+    }
+
 }

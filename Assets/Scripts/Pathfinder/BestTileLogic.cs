@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TileLogic
+public class BestTileLogic
 {
     public Vector2 Position;
     public int F;
@@ -10,11 +10,11 @@ public class TileLogic
     public int H;
     public List<Tile> Neighbors;
     public bool IsVisited { get; set; }
-    public TileLogic PrevTileLogic;
+    public BestTileLogic PrevBestTileLogic;
     public int Score { get; private set; }
     public int AccScore { get; set; }
 
-    public TileLogic(Vector2 position, int score)
+    public BestTileLogic(Vector2 position, int score)
     {
         Position = position;
         Score = score;
