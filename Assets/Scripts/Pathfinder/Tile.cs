@@ -9,24 +9,59 @@ public class Tile : MonoBehaviour
     public GameObject Hover;
     public GameObject Visited;
     public GameObject Available;
+    public GameObject PartOfBestPath;
 
     private bool IsVisited = false;
     private GridManager Grid;
+    public Vector2 Position { get; private set; }
+    public TileLogic Logic { get; private set; }
 
-    public void SetGrid(GridManager grid) {
+    public void Update()
+    {
+        WatchScoreText();
+        WatchIsVisited();
+    }
+
+    private void WatchIsVisited()
+    {
+        if (IsVisited) Visited.SetActive(true);
+        else Visited.SetActive(false);
+    }
+
+    public void Init(int score, Vector2 position)
+    {
+        Position = position;
+        Logic = new TileLogic(Position, score);
+    }
+
+    public void SetScore(int newScore)
+    {
+        Logic.ChangeScore(newScore);
+    }
+
+    public void SetGrid(GridManager grid)
+    {
         Grid = grid;
     }
 
-    public void Init(bool isProfitTile, int score)
+    public void SetStartPoint()
     {
-        TextMeshPro tileScore = GetComponentInChildren<TextMeshPro>();
+        SetScore(20);
+        UpdateVisited();
+    }
 
-        if (tileScore != null)
+    private void WatchScoreText()
+    {
+        int score = Logic.Score;
+        var isProfitTile = score > 0;
+        TextMeshPro tileScoreText = GetComponentInChildren<TextMeshPro>();
+
+        if (tileScoreText != null)
         {
-            var sign = score > 0 ? "+" : "-";
-            tileScore.text = String.Format("{0}{1}", sign, score.ToString());
+            var sign = isProfitTile ? "+" : "";
 
-            tileScore.color = isProfitTile ? ProfitTileColor : DamageTileColor;
+            tileScoreText.text = String.Format("{0}{1}", sign, score.ToString());
+            tileScoreText.color = isProfitTile ? ProfitTileColor : DamageTileColor;
         }
     }
 
@@ -40,18 +75,14 @@ public class Tile : MonoBehaviour
         Hover.SetActive(false);
     }
 
-    private void UpdateVisited()
+    public void UpdateVisited()
     {
-        if (IsVisited)
-        {
-            Visited.SetActive(false);
-            IsVisited = false;
-        }
-        else
-        {
-            Visited.SetActive(true);
-            IsVisited = true;
-        }
+        IsVisited = IsVisited ? false : true;
+    }
+
+    public void SetPartOfBestPath()
+    {
+        PartOfBestPath.SetActive(true);
     }
 
     public void OnMouseDown()

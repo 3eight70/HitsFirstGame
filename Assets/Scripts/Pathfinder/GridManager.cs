@@ -1,4 +1,5 @@
 using System;
+using Random = UnityEngine.Random;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,8 +15,12 @@ public class GridManager : MonoBehaviour
     void Start()
     {
         SetSize();
-        GenerateGrid();
+        InitGrid();
         MoveCamera();
+        GenerateScores();
+        ExecuteBestPathfinder();
+
+
     }
 
     private void SetSize()
@@ -24,7 +29,7 @@ public class GridManager : MonoBehaviour
         Height = Screen.height / PxPerTile - 2;
     }
 
-    private void GenerateGrid()
+    private void InitGrid()
     {
         for (int x = 0; x < Width; x++)
         {
@@ -39,11 +44,11 @@ public class GridManager : MonoBehaviour
     {
         var newTile = Instantiate(TilePrefab, new Vector3(x, y), Quaternion.identity);
         newTile.name = String.Format("Tile-{0}{1}", x, y);
+        var position = new Vector2(x, y);
 
-        bool isOdd = (x + y) % 2 == 1;
-        newTile.Init(isOdd, x);
+        newTile.Init(-1, position);
 
-        Tiles.Add(new Vector2(x, y), newTile);
+        Tiles.Add(position, newTile);
         newTile.SetGrid(this);
     }
 
@@ -52,4 +57,99 @@ public class GridManager : MonoBehaviour
         Camera.transform.position = new Vector3(Width / 2f - 0.5f, Height / 2f - 0.5f, -10);
     }
 
+    private void GenerateScores()
+    {
+        
+
+        for (int x = 0; x < Width; x++)
+        {
+            for (int y = 0; y < Height; y++)
+            {
+                int randomSign = UnityEngine.Random.Range(1, 3);
+                int randomScore = 0;
+
+                randomScore = randomSign == 1 ? UnityEngine.Random.Range(-10, -1) : UnityEngine.Random.Range(0, 10);
+                int randomDirection = UnityEngine.Random.Range(1, 3);
+
+                Tile bottomTile = GetTileAtPosition(new Vector2(x, y + 1));
+                Tile rightTile = GetTileAtPosition(new Vector2(x + 1, y));
+
+                // bottom
+                if (bottomTile != null && (randomDirection == 1 || rightTile == null))
+                {
+                    bottomTile.SetScore(randomScore);
+                }
+                else if (rightTile != null)
+                {
+                    rightTile.SetScore(randomScore);
+                }
+
+                var tile = GetTileAtPosition(new Vector2(x, y));
+                tile.SetScore(randomScore);
+            }
+        }
+
+        SetStartTile();
+    }
+
+    public List<Tile> GetNeighbors(Vector2 position)
+    {
+        List<Tile> neighbors = new List<Tile>();
+        var x = position.x;
+        var y = position.y;
+
+        var leftTile = GetTileAtPosition(new Vector2(x - 1, y));
+        if (leftTile != null) neighbors.Add(leftTile);
+
+        var rightTile = GetTileAtPosition(new Vector2(x + 1, y));
+        if (rightTile != null) neighbors.Add(rightTile);
+
+        var topTile = GetTileAtPosition(new Vector2(x, y - 1));
+        if (topTile != null) neighbors.Add(topTile);
+
+        var bottomTile = GetTileAtPosition(new Vector2(x, y + 1));
+        if (bottomTile != null) neighbors.Add(bottomTile);
+
+        return neighbors;
+    }
+
+    public Tile GetTileAtPosition(Vector2 position)
+    {
+        if (Tiles.TryGetValue(position, out var tile))
+        {
+            return tile;
+        }
+
+        return null;
+    }
+
+    private void SetStartTile()
+    {
+        var startPoint = new Vector2(0, 0);
+        var tile = GetTileAtPosition(startPoint);
+        if (tile != null) tile.SetStartPoint();
+    }
+
+    private void ExecuteBestPathfinder()
+    {
+        Vector2 startPointPosition = new Vector2(0, 0);
+        Vector2 endPointPosition = new Vector2(Width - 1, Height - 1);
+
+        BestPathfinder finder = new BestPathfinder(this, startPointPosition, endPointPosition);
+        var path = finder.GetBestPath();
+
+        if (path == null) return;
+
+        Tile currentTile = GetTileAtPosition(endPointPosition);
+
+        while (currentTile.Position != startPointPosition)
+        {
+            currentTile.SetPartOfBestPath();
+
+            TileLogic prevTileLogic = currentTile.Logic.PrevTileLogic;
+            Tile prevTile = GetTileAtPosition(prevTileLogic.Position);
+
+            currentTile = prevTile;
+        }
+    }
 }
