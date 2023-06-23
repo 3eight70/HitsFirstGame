@@ -19,8 +19,6 @@ public class GridManager : MonoBehaviour
         MoveCamera();
         GenerateScores();
         ExecuteBestPathfinder();
-
-
     }
 
     private void SetSize()
@@ -59,8 +57,6 @@ public class GridManager : MonoBehaviour
 
     private void GenerateScores()
     {
-        
-
         for (int x = 0; x < Width; x++)
         {
             for (int y = 0; y < Height; y++)
@@ -138,18 +134,9 @@ public class GridManager : MonoBehaviour
         BestPathfinder finder = new BestPathfinder(this, startPointPosition, endPointPosition);
         var path = finder.GetBestPath();
 
-        if (path == null) return;
-
-        Tile currentTile = GetTileAtPosition(endPointPosition);
-
-        while (currentTile.Position != startPointPosition)
+        foreach (Tile tile in path)
         {
-            currentTile.SetPartOfBestPath();
-
-            TileLogic prevTileLogic = currentTile.Logic.PrevTileLogic;
-            Tile prevTile = GetTileAtPosition(prevTileLogic.Position);
-
-            currentTile = prevTile;
+            tile.SetPartOfBestPath();
         }
     }
 }
