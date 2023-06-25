@@ -146,10 +146,10 @@ public class ClickAndMove
         Vector2 clickPosition = GetClickPosition();
         Transform clickedItem = GetCheckerAt(clickPosition);
 
-        //if (clickedItem == null || clickedItem.tag == "WhiteChecker")
-        //return;
-        if (clickedItem == null)
+        if (clickedItem == null || clickedItem.tag == "WhiteChecker")
             return;
+        //if (clickedItem == null)
+            //return;
         
         
         Transform clickedCell = GetCellAt(clickPosition);
