@@ -11,6 +11,8 @@ public class Board : MonoBehaviour
     public int boardSize = 8;
     public GameObject[,] cells;
     ClickAndMove cam;
+    public GameObject gameOverPanel;
+
     void Start()
     {
         cam = new ClickAndMove(this);
@@ -57,6 +59,9 @@ public class ClickAndMove
     public VerySmartMachine machine;
     public int size = 8;
     public int repeatchecker = 0;
+    public Vector3 targetPosition;
+    public float speed = 1f;
+
     public ClickAndMove(Board board)
     {
         state = State.none;
@@ -145,9 +150,15 @@ public class ClickAndMove
         //return;
         if (clickedItem == null)
             return;
-
-        // Get the cell under the checker and change its color
+        
+        
         Transform clickedCell = GetCellAt(clickPosition);
+
+        if (!machine.HumanJumpPossibles(clickedCell.gameObject))
+        {
+            return;
+        }
+
         if (clickedCell != null)
         {
             selectedCell = clickedCell.gameObject;
@@ -174,7 +185,7 @@ public class ClickAndMove
         // Check if there's a checker at the clicked position
         Transform clickedChecker = GetCheckerAt(clickPosition);
         Transform clickedCell = GetCellAt(clickPosition);
-
+        
         if (clickedChecker != null && clickedChecker.tag == "Checker")
         {
             if (selectedCell != null)
@@ -218,14 +229,14 @@ public class ClickAndMove
         float diff = Math.Abs(clickedCell.position[0] - item.transform.position[0]);
         machine.UpdateBoard(item.transform.position, clickedCell.position, 1);
         item.transform.position = clickedCell.position;
-
+        //item.transform.position = Vector2.Lerp(item.transform.position, clickedCell.position, speed);
 
 
         moveCalculator.RemoveJumpedOverChecker(clickedCell.gameObject);
         moveCalculator.ClearPossibleMoves(item);
         moveCalculator.CalculatePossibleMoves(item);
 
-        if (moveCalculator.HasJumpCells(clickedCell.gameObject)==false && diff > (float)1.5 || diff < (float)1.6){
+        if (machine.HumanHasJumpCells(clickedCell.gameObject)==false && diff > (float)1.5 || diff < (float)1.6){
             moveCalculator.RemoveJumpedOverChecker(clickedCell.gameObject);
             moveCalculator.ClearPossibleMoves(item);
             state = State.machine;
@@ -333,14 +344,7 @@ public class CheckerMoveCalculator
     }
 
 
-    public bool HasJumpCells(GameObject cell)
-    {
-        //return jumpOverCheckers.C(cell);
-        //return jumpOverCheckers.ContainsValue(cell);
-        //return jumpOverCheckers.Count > 0;
-        Debug.Log(jumpOverCheckers);
-        return jumpOverCheckers.ContainsKey(cell);
-    }
+    
 
     public void ClearPossibleMoves(GameObject checker)
     {
@@ -370,6 +374,7 @@ public class VerySmartMachine
     private const int BoardSize = 8;
     private int[,] numeralBoard = new int[8, 8];
     private ClickAndMove clickandmove;
+    
 
     private Dictionary<GameObject, GameObject> jumpOverMachineCheckers = new Dictionary<GameObject, GameObject>();
 
@@ -398,6 +403,67 @@ public class VerySmartMachine
                 }
             }
         }
+    }
+
+
+    public bool HumanJumpPossibles(GameObject cell)
+    {
+        var name = cell.name;
+        (int, int) ccords = ((int)(name[name.Length - 3] - '0'), (int)(name[name.Length - 1] - '0'));
+        var cords = UnconvertCord(ccords);
+        List<(int, int)> resultPossibles = new List<(int, int)>();
+        for (int x = 0; x < 8; x++)
+        {
+            for (int y = 0; y < 8; y++)
+            {
+                if (numeralBoard[x, y] == 1)
+                {
+                    for (int dx = -2; dx <= 2; dx += 2)
+                    {
+                        for (int dy = -2; dy <= 2; dy += 2)
+                        {
+                            (int, int) temppos = (x, y);
+                            (int, int) nextpos = (x + dx, y + dy);
+                            if (nextpos.Item1 >= 0 && nextpos.Item1 <= 7 && nextpos.Item2 >= 0 && nextpos.Item2 <= 7)
+                            {
+                                if (numeralBoard[(temppos.Item1+nextpos.Item1)/2, (temppos.Item2 + nextpos.Item2)/2] == -1 && numeralBoard[nextpos.Item1, nextpos.Item2] == 0)
+                                {
+                                    resultPossibles.Add(temppos);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if (resultPossibles.Count == 0 || resultPossibles.Count > 0 && resultPossibles.Contains(cords))
+        {
+            return true;
+        }
+        return false;
+    }
+
+
+    public bool HumanHasJumpCells(GameObject cell)
+    {
+        var name = cell.name;
+        (int, int) ccords = ((int)(name[name.Length - 3] - '0'), (int)(name[name.Length - 1] - '0'));
+        var cords = UnconvertCord(ccords);
+        for (int dx = -2; dx <= 2; dx += 2)
+        {
+            for (int dy = -2; dy <= 2; dy += 2)
+            {
+                (int, int) rescords = (cords.Item1 + dx, cords.Item2 + dy);
+                if (rescords.Item1 >= 0 && rescords.Item1 <= 7  && rescords.Item2 >= 0 && rescords.Item2 <= 7)
+                {
+                    if (numeralBoard[(cords.Item1 + rescords.Item1)/2,(cords.Item2 + rescords.Item2)/2] == -1 && numeralBoard[rescords.Item1, rescords.Item2] == 0)
+                        return true;
+                }
+            }
+        }
+        return false;
+
     }
     /*public void BoardInit()
     {
@@ -431,6 +497,8 @@ public class VerySmartMachine
             }
         }
     }*/
+
+    
     public void UpdateBoard(Vector2 startpos, Vector2 targetpos, int isuser)
     {
         GameObject currentcell = clickandmove.GetGOCellAt(startpos);
@@ -651,17 +719,37 @@ public class VerySmartMachine
         return hitCollider.transform;
     }
 
+    public Transform ModifiedGetter(Vector2 position)
+    {
+        RaycastHit2D[] figures = Physics2D.RaycastAll(position, position, 0.5f);
+
+        if (figures.Length == 0)
+            return null;
+        Debug.Log($"При объекте {figures[0].transform} количество {figures.Length}");
+        return figures[0].transform;
+    }
+
+   
+
     public void MoveMaker()
     {
+        Physics2D.SyncTransforms();
+        /*float start = 0;
+        while (start < 15)
+        {
+            start += Time.deltaTime;
+        }*/
 
+        //gameOverPanel.setActive(true);
         //UpdateBoard();
         //ShowSituation();
-        var pair = GeniusMove(numeralBoard, 5, -1);
+        var pair = GeniusMove(numeralBoard, 6, -1);
         //Debug.Log(pair[0] + " " + pair[1]);
         var cellpair = ConvertToCellCord(pair[0]);
         Transform pickedChecker = GetWhiteChecker(this.board.cells[cellpair.Item1, cellpair.Item2].transform.position);
+        //Transform pickedChecker = ModifiedGetter(this.board.cells[cellpair.Item1, cellpair.Item2].transform.position);
 
-      
+
         var move = pair[1];
         var cellmove = ConvertToCellCord(move);
 
@@ -674,8 +762,8 @@ public class VerySmartMachine
             flag = 1;
             var oppcords = ((pair[0].Item1 + pair[1].Item1) / 2, (pair[0].Item2 + pair[1].Item2) / 2);
             var oppospair = ConvertToCellCord(oppcords);
-            Debug.Log(pair[0]);
-            Debug.Log(pair[1]);
+            //Debug.Log(pair[0]);
+            //Debug.Log(pair[1]);
             
             //Transform opposChecker = null;
             Transform opposChecker = GetBlackChecker(board.cells[oppospair.Item1, oppospair.Item2].transform.position);
@@ -687,17 +775,31 @@ public class VerySmartMachine
         }
         else
         {
+            Debug.Log($"Daaamn {pair[0]} {pair[1]}");
             if (clickandmove.repeatchecker == 1)
             {
                 clickandmove.state = ClickAndMove.State.none;
                 clickandmove.repeatchecker = 0;
+                clickandmove.Action();
                 return;
+
             }
         }
-       
+        Debug.Log($"Начальная клетка: {pair[0]}");
+        Debug.Log($"Конечная клетка: {pair[1]}");
+        Debug.Log($"Взятая шашка: {pickedChecker}");
+        Debug.Log($"Целевая клетка: {targetcell}");
+        
+
+        
         UpdateBoard(pickedChecker.position, targetcell.position, -1);
         pickedChecker.position = targetcell.position;
         
+        
+
+
+
+
         if (flag == 1)
         {
             clickandmove.repeatchecker = 1;
