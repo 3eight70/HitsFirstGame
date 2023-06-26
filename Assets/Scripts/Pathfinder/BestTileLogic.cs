@@ -20,6 +20,7 @@ public class BestTileLogic
         AccScore = score;
 
         IsVisited = false;
+
         F = 0;
         G = 0;
         H = 0;
