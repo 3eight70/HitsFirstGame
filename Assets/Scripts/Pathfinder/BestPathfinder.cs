@@ -24,7 +24,7 @@ public class BestPathfinder
     {
         List<BestTileLogic> from = new List<BestTileLogic>();
         List<BestTileLogic> openSet = new List<BestTileLogic>();
-        openSet.Add(StartPoint.Logic);
+        openSet.Add(StartPoint.BestPathLogic);
 
         while (openSet.Count > 0)
         {
@@ -73,15 +73,15 @@ public class BestPathfinder
                     }
 
                     neighborLogic.G = g;
-                    neighborLogic.H = CalculateHeuristic(neighborLogic, EndPoint.Logic);
-                    neighborLogic.F = neighborLogic.G + neighborLogic.H;
+                    neighborLogic.H = CalculateHeuristic(neighborLogic, EndPoint.BestPathLogic);
+                    neighborLogic.F = neighborLogic.G * neighborLogic.H;
                     neighborLogic.PrevBestTileLogic = currentTile;
-                    neighborLogic.AccScore = currentTile.AccScore + neighborLogic.Score;
+                    neighborLogic.AccScore = currentTile.AccScore + neighborLogic.ParentTile.Score;
                 }
             }
         }
 
-        return null;
+        return new List<Tile>();
     }
 
     private List<BestTileLogic> toLogicNeighbors(int accScore, List<Tile> neighbors)
@@ -90,9 +90,9 @@ public class BestPathfinder
 
         foreach (Tile neighbor in neighbors)
         {
-            if (accScore + neighbor.Logic.Score > 0)
+            if (accScore + neighbor.Score > 0)
             {
-                logicNeighbors.Add(neighbor.Logic);
+                logicNeighbors.Add(neighbor.BestPathLogic);
             }
         }
 
@@ -104,7 +104,7 @@ public class BestPathfinder
         int xShift = Math.Abs((int)(from.Position.x - to.Position.x));
         int yShift = Math.Abs((int)(from.Position.y - to.Position.y));
 
-        return to.Score;
+        return to.ParentTile.Score;
     }
 
     private int CalculateHeuristic(BestTileLogic from, BestTileLogic to)
@@ -124,7 +124,7 @@ public class BestPathfinder
         {
             path.Add(currentTile);
 
-            BestTileLogic prevTileLogic = currentTile.Logic.PrevBestTileLogic;
+            BestTileLogic prevTileLogic = currentTile.BestPathLogic.PrevBestTileLogic;
             Tile prevTile = Grid.GetTileAtPosition(prevTileLogic.Position);
 
             currentTile = prevTile;

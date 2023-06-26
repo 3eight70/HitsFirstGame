@@ -5,28 +5,23 @@ using UnityEngine;
 public class BestTileLogic
 {
     public Vector2 Position;
+    public Tile ParentTile { get; private set; }
     public int F;
     public int G;
     public int H;
-    public List<Tile> Neighbors;
     public bool IsVisited { get; set; }
     public BestTileLogic PrevBestTileLogic;
-    public int Score { get; private set; }
     public int AccScore { get; set; }
 
-    public BestTileLogic(Vector2 position, int score)
+    public BestTileLogic(Tile tile, Vector2 position, int score)
     {
+        ParentTile = tile;
         Position = position;
-        Score = score;
         AccScore = score;
 
+        IsVisited = false;
         F = 0;
         G = 0;
         H = 0;
-    }
-
-    public void ChangeScore(int newScore)
-    {
-        Score = newScore;
     }
 }

@@ -11,53 +11,74 @@ public class Tile : MonoBehaviour
     public GameObject Available;
     public GameObject ErrorAvailable;
     public GameObject PartOfBestPath;
+    private TextMeshPro ScoreText;
+    private TextMeshPro AccScoreText;
 
-    private bool IsVisited = false;
-    private bool IsErrorAvailable = false;
-    private bool IsAvailable = false;
-    private GridManager Grid;
+    private UserPathManager UserPathManager;
     public Vector2 Position { get; private set; }
-    public BestTileLogic Logic { get; private set; }
+    public BestTileLogic BestPathLogic { get; private set; }
+    public UserTileLogic UserPathLogic { get; private set; }
+    public int Score { get; private set; }
 
-    public void Init(int score, Vector2 position)
+    public void Start()
     {
+        TextMeshPro[] texts = GetComponentsInChildren<TextMeshPro>();
+
+        if (texts[0] != null) ScoreText = texts[0];
+        if (texts[1] != null) AccScoreText = texts[1];
+    }
+
+    public void Init(UserPathManager userPathManager, Vector2 position, int score)
+    {
+        UserPathManager = userPathManager;
         Position = position;
-        Logic = new BestTileLogic(Position, score);
+        Score = score;
+        BestPathLogic = new BestTileLogic(this, Position, Score);
+        UserPathLogic = new UserTileLogic(this, Position);
     }
 
     public void Update()
     {
         WatchScoreText();
-        WatchIsVisited();
-        WatchIsAvailable();
+        WatchVisited();
+        WatchAvailable();
+        WatchErrorAvailable();
     }
 
     private void WatchScoreText()
     {
-        int score = Logic.Score;
-        var isProfitTile = score > 0;
-        TextMeshPro tileScoreText = GetComponentInChildren<TextMeshPro>();
+        var isProfitTile = Score > 0;
 
-        if (tileScoreText != null)
+        if (ScoreText != null)
         {
             var sign = isProfitTile ? "+" : "";
 
-            tileScoreText.text = String.Format("{0}{1}", sign, score.ToString());
-            tileScoreText.color = isProfitTile ? ProfitTileColor : DamageTileColor;
+            ScoreText.text = String.Format("{0}{1}", sign, Score.ToString());
+            ScoreText.color = isProfitTile ? ProfitTileColor : DamageTileColor;
+        }
+
+        if (AccScoreText != null && UserPathLogic.AccScore != 0)
+        {
+            AccScoreText.text = UserPathLogic.AccScore.ToString();
         }
     }
 
-    private void WatchIsVisited()
+    private void WatchVisited()
     {
-        if (IsVisited) Visited.SetActive(true);
+        if (UserPathLogic.IsVisited) Visited.SetActive(true);
         else Visited.SetActive(false);
     }
 
-    private void WatchIsAvailable()
+    private void WatchAvailable()
     {
-        // if () 
-        // if (IsVisited) Visited.SetActive(true);
-        // else Visited.SetActive(false);
+        if (UserPathLogic.IsAvailable) Available.SetActive(true);
+        else Available.SetActive(false);
+    }
+
+    private void WatchErrorAvailable()
+    {
+        if (UserPathLogic.IsErrorAvailable) ErrorAvailable.SetActive(true);
+        else ErrorAvailable.SetActive(false);
     }
 
     public void OnMouseEnter()
@@ -70,11 +91,6 @@ public class Tile : MonoBehaviour
         Hover.SetActive(false);
     }
 
-    public void UpdateVisited()
-    {
-        IsVisited = IsVisited ? false : true;
-    }
-
     public void SetPartOfBestPath()
     {
         PartOfBestPath.SetActive(true);
@@ -82,28 +98,24 @@ public class Tile : MonoBehaviour
 
     public void OnMouseDown()
     {
-        UpdateVisited();
+        if (UserPathManager == null) return;
+        UserPathManager.OnTileClick(this);
     }
 
-    public void SetAvailable()
+    public void SetVisited()
     {
-        Available.SetActive(true);
-    }
-
-    public void SetGrid(GridManager grid)
-    {
-        Grid = grid;
+        UserPathLogic.SetVisited();
     }
 
     public void SetStartPoint()
     {
+        UserPathLogic.AccScore = 10;
         SetScore(10);
-        UpdateVisited();
+        UserPathLogic.SetVisited();
     }
 
     public void SetScore(int newScore)
     {
-        Logic.ChangeScore(newScore);
+        Score = newScore;
     }
-
 }

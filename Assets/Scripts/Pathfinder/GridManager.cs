@@ -11,14 +11,18 @@ public class GridManager : MonoBehaviour
     public Tile TilePrefab;
     public Transform Camera;
     private Dictionary<Vector2, Tile> Tiles = new Dictionary<Vector2, Tile>();
+    private UserPathManager UserManager;
 
     void Start()
     {
+        UserManager = new UserPathManager(this);
+
         SetSize();
         InitGrid();
         MoveCamera();
         GenerateScores();
-        ExecuteBestPathfinder();
+        UserManager.Init();
+        // ExecuteBestPathfinder();
     }
 
     private void SetSize()
@@ -44,10 +48,9 @@ public class GridManager : MonoBehaviour
         newTile.name = String.Format("Tile-{0}{1}", x, y);
         var position = new Vector2(x, y);
 
-        newTile.Init(-1, position);
+        newTile.Init(UserManager, position, -1);
 
         Tiles.Add(position, newTile);
-        newTile.SetGrid(this);
     }
 
     private void MoveCamera()
@@ -64,7 +67,7 @@ public class GridManager : MonoBehaviour
                 int randomSign = UnityEngine.Random.Range(1, 3);
                 int randomScore = 0;
 
-                randomScore = randomSign == 1 ? UnityEngine.Random.Range(-10, -1) : UnityEngine.Random.Range(0, 10);
+                randomScore = randomSign == 1 ? UnityEngine.Random.Range(-10, -2) : UnityEngine.Random.Range(-1, 10);
                 int randomDirection = UnityEngine.Random.Range(1, 3);
 
                 Tile bottomTile = GetTileAtPosition(new Vector2(x, y + 1));
@@ -84,8 +87,6 @@ public class GridManager : MonoBehaviour
                 tile.SetScore(randomScore);
             }
         }
-
-        SetStartTile();
     }
 
     public List<Tile> GetNeighbors(Vector2 position)
@@ -109,6 +110,11 @@ public class GridManager : MonoBehaviour
         return neighbors;
     }
 
+    public Tile GetStartTile()
+    {
+        return GetTileAtPosition(new Vector2(0, 0));
+    }
+
     public Tile GetTileAtPosition(Vector2 position)
     {
         if (Tiles.TryGetValue(position, out var tile))
@@ -121,9 +127,7 @@ public class GridManager : MonoBehaviour
 
     private void SetStartTile()
     {
-        var startPoint = new Vector2(0, 0);
-        var tile = GetTileAtPosition(startPoint);
-        if (tile != null) tile.SetStartPoint();
+
     }
 
     private void ExecuteBestPathfinder()
