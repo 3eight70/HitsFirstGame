@@ -2,18 +2,19 @@ using System;
 using Random = UnityEngine.Random;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GridManager : MonoBehaviour
 {
+    [SerializeField] private Tile TilePrefab;
+    [SerializeField] private Transform Camera;
     private int PxPerTile = 70;
     public int Width;
     public int Height;
-    public Tile TilePrefab;
-    public Transform Camera;
     private Dictionary<Vector2, Tile> Tiles = new Dictionary<Vector2, Tile>();
     private UserPathManager UserManager;
-    private Tile StartTile = new Tile();
-    private Tile DestinationTile = new Tile();
+    private Tile StartTile;
+    private Tile DestinationTile;
 
     void Start()
     {
@@ -24,10 +25,6 @@ public class GridManager : MonoBehaviour
         MoveCamera();
         GenerateScores();
         UserManager.Init(StartTile, DestinationTile);
-
-        int bestPathScore = ExecuteBestPathfinder();
-
-        Debug.Log(bestPathScore);
     }
 
     private void SetSize()
@@ -142,15 +139,16 @@ public class GridManager : MonoBehaviour
             accScore += tile.Score;
             tile.SetPartOfBestPath();
         }
-        
+
         return accScore;
     }
 
-    public void UserWin(int accScore)
+    public void UserWin(int userAccScore)
     {
-        Debug.Log(accScore);
         int bestPathScore = ExecuteBestPathfinder();
-
-        Debug.Log(bestPathScore);
+        PathfinderUI.Instance.ShowWinPopup(winMessage(userAccScore, bestPathScore));
     }
+
+    private string winMessage(int userScore, int bestScore) =>
+        String.Format("Поздравляю, ваш счёт: {0}\n Лучший счёт: {1}", userScore, bestScore);
 }
