@@ -6,75 +6,117 @@ public class UserPathManager
 {
     private GridManager Grid;
     private List<Tile> UserPath;
+    private Tile StartTile = new Tile();
+    private Tile DestinationTile = new Tile();
     private Tile LastTile;
     public List<Tile> AvailableTiles { get; private set; }
-    public int AccScore { get; private set; }
+    private bool IsOver = false;
 
     public UserPathManager(GridManager gridManager)
     {
         Grid = gridManager;
         UserPath = new List<Tile>();
         AvailableTiles = new List<Tile>();
-        AccScore = 0;
     }
 
-    public void Init()
+    public void Init(Tile startTile, Tile destinationTile)
     {
-        InitStartTile();
+        DestinationTile = destinationTile;
+        InitStartTile(startTile);
     }
 
-    private void InitStartTile()
+    private void InitStartTile(Tile startTile)
     {
-        Tile startTile = Grid.GetStartTile();
-        if (startTile != null)
-        {
-            AccScore += startTile.Score;
-            startTile.SetStartPoint();
-            UserPath.Add(startTile);
-            LastTile = startTile;
-        }
+        StartTile = startTile;
+
+        startTile.SetStartPoint();
+        UserPath.Add(startTile);
+        LastTile = startTile;
 
         UpdateAvailableTiles();
     }
 
-    private void UpdateAvailableTiles()
+    public void OnTileClick(Tile tile)
     {
-        foreach (var tile in AvailableTiles)
+        if (LastTile.Position == tile.Position && LastTile.Position != StartTile.Position)
         {
-            tile.UserPathLogic.UnsetAvailable();
+            RemoveLastPathTile();
+            return;
         }
 
+        if (!IsValidTile(tile)) return;
+
+        SetNextTile(tile);
+    }
+
+    private bool IsValidTile(Tile tile)
+    {
+        var index = AvailableTiles.FindIndex(availableTile => availableTile.Position == tile.Position);
+        return !(index < 0 || AvailableTiles[index].IsUserErrorAvailable());
+    }
+
+    private void SetNextTile(Tile tile)
+    {
+        tile.SetVisited();
+        UserPath.Add(tile);
+        LastTile = tile;
+        UpdateAvailableTiles();
+
+        if (LastTile.Position == DestinationTile.Position)
+        {
+            IsOver = true;
+            Grid.UserWin(LastTile.UserAccScore());
+        }
+    }
+
+    private void UpdateAvailableTiles()
+    {
+        ResetAvailableTiles();
+        SetAvailableTiles();
+    }
+
+    private void SetAvailableTiles()
+    {
         List<Tile> neighbors = Grid.GetNeighbors(LastTile.Position);
         AvailableTiles = new List<Tile>();
 
         foreach (var tile in neighbors)
         {
-            if (tile.UserPathLogic.IsVisited) continue;
+            if (tile.IsUserVisited()) continue;
 
-            var newAccScore = (LastTile.UserPathLogic.AccScore + tile.Score);
+            var newAccScore = (LastTile.UserAccScore() + tile.Score);
 
             if (newAccScore > 0)
             {
-                AccScore += tile.Score;
-                AvailableTiles.Add(tile);
-                tile.UserPathLogic.SetAvailable(newAccScore);
+                tile.SetUserAvailable(newAccScore);
             }
             else
             {
-                tile.UserPathLogic.SetErrorAvailable(newAccScore);
+                tile.SetUserErrorAvailable(newAccScore);
+            }
+
+            AvailableTiles.Add(tile);
+        }
+    }
+
+    private void ResetAvailableTiles()
+    {
+        foreach (var tile in AvailableTiles)
+        {
+            if (tile.Position != LastTile.Position)
+            {
+                tile.ResetAvailableUserLogic();
             }
         }
     }
 
-    public void OnTileClick(Tile tile)
+    private void RemoveLastPathTile()
     {
-        var index = AvailableTiles.FindIndex(availableTile => availableTile.Position == tile.Position);
-        if (index < 0) return;
+        LastTile.ResetVisitUserLogic();
 
-        tile.SetVisited();
-        UserPath.Add(tile);
-        LastTile = tile;
-        AccScore += LastTile.Score;
+        UserPath.RemoveAt(UserPath.Count - 1);
+        LastTile = UserPath[UserPath.Count - 1];
+
         UpdateAvailableTiles();
     }
 }

@@ -57,9 +57,9 @@ public class Tile : MonoBehaviour
             ScoreText.color = isProfitTile ? ProfitTileColor : DamageTileColor;
         }
 
-        if (AccScoreText != null && UserPathLogic.AccScore != 0)
+        if (AccScoreText != null)
         {
-            AccScoreText.text = UserPathLogic.AccScore.ToString();
+            AccScoreText.text = UserPathLogic.AccScore != 0 ? UserPathLogic.AccScore.ToString() : "";
         }
     }
 
@@ -118,4 +118,22 @@ public class Tile : MonoBehaviour
     {
         Score = newScore;
     }
+
+    public void ResetAvailableUserLogic()
+    {
+        UserPathLogic.UnsetAvailable();
+        UserPathLogic.AccScore = 0;
+    }
+
+    public void ResetVisitUserLogic()
+    {
+        UserPathLogic.UnsetAvailable();
+        UserPathLogic.UnsetVisited();
+    }
+
+    public bool IsUserVisited() => UserPathLogic.IsVisited;
+    public int UserAccScore() => UserPathLogic.AccScore;
+    public bool IsUserErrorAvailable() => UserPathLogic.IsErrorAvailable;
+    public void SetUserAvailable(int accScore) => UserPathLogic.SetAvailable(accScore);
+    public void SetUserErrorAvailable(int accScore) => UserPathLogic.SetErrorAvailable(accScore);
 }

@@ -12,6 +12,8 @@ public class GridManager : MonoBehaviour
     public Transform Camera;
     private Dictionary<Vector2, Tile> Tiles = new Dictionary<Vector2, Tile>();
     private UserPathManager UserManager;
+    private Tile StartTile = new Tile();
+    private Tile DestinationTile = new Tile();
 
     void Start()
     {
@@ -21,7 +23,7 @@ public class GridManager : MonoBehaviour
         InitGrid();
         MoveCamera();
         GenerateScores();
-        UserManager.Init();
+        UserManager.Init(StartTile, DestinationTile);
         // ExecuteBestPathfinder();
     }
 
@@ -40,6 +42,9 @@ public class GridManager : MonoBehaviour
                 CreateTile(x, y);
             }
         }
+
+        StartTile = Tiles[new Vector2(0, 0)];
+        DestinationTile = Tiles[new Vector2(Width - 1, Height - 1)];
     }
 
     private void CreateTile(int x, int y)
@@ -110,11 +115,6 @@ public class GridManager : MonoBehaviour
         return neighbors;
     }
 
-    public Tile GetStartTile()
-    {
-        return GetTileAtPosition(new Vector2(0, 0));
-    }
-
     public Tile GetTileAtPosition(Vector2 position)
     {
         if (Tiles.TryGetValue(position, out var tile))
@@ -125,12 +125,7 @@ public class GridManager : MonoBehaviour
         return null;
     }
 
-    private void SetStartTile()
-    {
-
-    }
-
-    private void ExecuteBestPathfinder()
+    private int ExecuteBestPathfinder()
     {
         Vector2 startPointPosition = new Vector2(0, 0);
         Vector2 endPointPosition = new Vector2(Width - 1, Height - 1);
@@ -138,9 +133,21 @@ public class GridManager : MonoBehaviour
         BestPathfinder finder = new BestPathfinder(this, startPointPosition, endPointPosition);
         var path = finder.GetBestPath();
 
+        var accScore = 0;
         foreach (Tile tile in path)
         {
+            accScore += tile.Score;
             tile.SetPartOfBestPath();
         }
+        
+        return accScore;
+    }
+
+    public void UserWin(int accScore)
+    {
+        Debug.Log(accScore);
+        int bestPathScore = ExecuteBestPathfinder();
+
+        Debug.Log(bestPathScore);
     }
 }

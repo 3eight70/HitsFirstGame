@@ -58,7 +58,6 @@ public class BestPathfinder
 
             foreach (BestTileLogic neighborLogic in logicNeighbors)
             {
-
                 if (!from.Contains(neighborLogic))
                 {
                     int g = currentTile.G + CalculateNeighborHeuristic(currentTile, neighborLogic);
@@ -74,7 +73,7 @@ public class BestPathfinder
 
                     neighborLogic.G = g;
                     neighborLogic.H = CalculateHeuristic(neighborLogic, EndPoint.BestPathLogic);
-                    neighborLogic.F = neighborLogic.G * neighborLogic.H;
+                    neighborLogic.F = neighborLogic.G + neighborLogic.H;
                     neighborLogic.PrevBestTileLogic = currentTile;
                     neighborLogic.AccScore = currentTile.AccScore + neighborLogic.ParentTile.Score;
                 }
@@ -101,9 +100,6 @@ public class BestPathfinder
 
     private int CalculateNeighborHeuristic(BestTileLogic from, BestTileLogic to)
     {
-        int xShift = Math.Abs((int)(from.Position.x - to.Position.x));
-        int yShift = Math.Abs((int)(from.Position.y - to.Position.y));
-
         return to.ParentTile.Score;
     }
 
@@ -112,7 +108,9 @@ public class BestPathfinder
         int xShift = Math.Abs((int)(from.Position.x - to.Position.x));
         int yShift = Math.Abs((int)(from.Position.y - to.Position.y));
 
-        return xShift + yShift;
+        int allShifts = xShift + yShift;
+
+        return allShifts == 0 ? int.MaxValue : 1 / allShifts;
     }
 
     private List<Tile> RecoveredPath()

@@ -48,6 +48,11 @@ public class UserTileLogic
         IsVisited = true;
     }
 
+    public void UnsetVisited()
+    {
+        IsVisited = false;
+    }
+
     public void ChangeVisited()
     {
         if (!IsAvailable) return;
