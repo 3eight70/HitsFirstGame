@@ -753,6 +753,67 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 219971767}
   m_CullTransparentMesh: 1
+--- !u!1 &293340583
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 293340586}
+  - component: {fileID: 293340585}
+  - component: {fileID: 293340587}
+  m_Layer: 0
+  m_Name: BullCowsUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &293340585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 293340583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5894323aabf0cbb28ca10b48c5a70d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &293340586
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 293340583}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 578.5, y: 325.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &293340587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 293340583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a48bf746f0ddefc8c971c5d486826045, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WinAnimator: {fileID: 1971839035}
+  ErrorAnimator: {fileID: 1025966092}
+  ErrorText: {fileID: 394099562}
+  WinText: {fileID: 453198307}
 --- !u!1 &316633367
 GameObject:
   m_ObjectHideFlags: 0
@@ -1436,9 +1497,9 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 453198305}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1971839034}
@@ -2135,7 +2196,7 @@ GameObject:
   - component: {fileID: 955848461}
   - component: {fileID: 955848460}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: BullsCows
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2153,12 +2214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d41f99725423a93c8a35ff91673628c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WinAnimator: {fileID: 1971839035}
-  ErrorAnimator: {fileID: 1025966092}
   UserNumber: {fileID: 16474147}
-  TextFieldPrefab: {fileID: 5951909006455223476, guid: f86d4ba0017c2f7f38fd15c4c3e52b47, type: 3}
-  ErrorText: {fileID: 394099562}
-  WinText: {fileID: 453198307}
   AnswersContainer: {fileID: 601561775}
 --- !u!4 &955848461
 Transform:
