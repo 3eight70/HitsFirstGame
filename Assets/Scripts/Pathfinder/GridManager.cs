@@ -24,7 +24,10 @@ public class GridManager : MonoBehaviour
         MoveCamera();
         GenerateScores();
         UserManager.Init(StartTile, DestinationTile);
-        // ExecuteBestPathfinder();
+
+        int bestPathScore = ExecuteBestPathfinder();
+
+        Debug.Log(bestPathScore);
     }
 
     private void SetSize()

@@ -100,7 +100,10 @@ public class BestPathfinder
 
     private int CalculateNeighborHeuristic(BestTileLogic from, BestTileLogic to)
     {
-        return to.ParentTile.Score;
+        int xShift = Math.Abs((int)(from.Position.x - to.Position.x));
+        int yShift = Math.Abs((int)(from.Position.y - to.Position.y));
+
+        return xShift * to.ParentTile.Score + yShift * to.ParentTile.Score;
     }
 
     private int CalculateHeuristic(BestTileLogic from, BestTileLogic to)
@@ -127,6 +130,8 @@ public class BestPathfinder
 
             currentTile = prevTile;
         }
+
+        path.Add(StartPoint);
 
         return path;
     }
