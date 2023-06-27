@@ -8,7 +8,6 @@ namespace BullsCows
         public Animator WinAnimator;
         public Animator ErrorAnimator;
         public InputField UserNumber;
-        public GameObject TextFieldPrefab;
         public Text ErrorText;
         public Text WinText;
         public Transform AnswersContainer;
