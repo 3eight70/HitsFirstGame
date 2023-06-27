@@ -27,6 +27,13 @@ public class GridManager : MonoBehaviour
         UserManager.Init(StartTile, DestinationTile);
     }
 
+    public void GenerateGrid()
+    {
+        GenerateScores();
+        UserManager = new UserPathManager(this);
+        UserManager.Init(StartTile, DestinationTile);
+    }
+
     private void SetSize()
     {
         Width = Screen.width / PxPerTile - 1;
@@ -89,6 +96,7 @@ public class GridManager : MonoBehaviour
                 }
 
                 var tile = GetTileAtPosition(new Vector2(x, y));
+                tile.FullReset();
                 tile.SetScore(randomScore);
             }
         }

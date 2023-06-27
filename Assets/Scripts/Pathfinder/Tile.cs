@@ -131,6 +131,13 @@ public class Tile : MonoBehaviour
         UserPathLogic.UnsetVisited();
     }
 
+    public void FullReset()
+    {
+        BestPathLogic = new BestTileLogic(this, Position, Score);
+        UserPathLogic = new UserTileLogic(this, Position);
+        Score = 0;
+    }
+
     public bool IsUserVisited() => UserPathLogic.IsVisited;
     public int UserAccScore() => UserPathLogic.AccScore;
     public bool IsUserErrorAvailable() => UserPathLogic.IsErrorAvailable;
