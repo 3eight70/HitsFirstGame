@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Menu.unity
     guid: 106f49ae8b0425040a0261df18a97bf4
+  - enabled: 1
+    path: Assets/Scenes/BullsCows.unity
+    guid: 09b59e21f338ba3f9a67b0b61f4f7fd9
   m_configObjects: {}
