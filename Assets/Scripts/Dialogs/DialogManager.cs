@@ -15,17 +15,19 @@ public class DialogManager : MonoBehaviour
     public GameObject YesButton;
     public GameObject NoButton;
 
+    public DialogChecker check;
+
+    private bool gameFlag;
+
     private Queue<string> sentences;
 
     private void Start()
     {
         sentences = new Queue<string>();
-    }
 
-    private void Update()
-    {
-        if (sentences.Count == 0) {
-            NextButton.SetActive(false);
+        if (check != null)
+        {
+            gameFlag = check.CheckFlag();
         }
     }
 
@@ -33,17 +35,20 @@ public class DialogManager : MonoBehaviour
     {
         boxAnim.SetBool("startOpen", true);
         startAnim.SetBool("startOpen", false);
-        NextButton.SetActive(true);
 
-        nameText.text = dialog.name;
-        sentences.Clear();
-
-        foreach(string sentence in dialog.sentences)
+        if (dialog.sentences.Length > 0)
         {
-            sentences.Enqueue(sentence);
-        }
+            NextButton.SetActive(true);
+            nameText.text = dialog.name;
+            sentences.Clear();
 
-        DisplayNextSentence();
+            foreach (string sentence in dialog.sentences)
+            {
+                sentences.Enqueue(sentence);
+            }
+
+            DisplayNextSentence();
+        }
     }
 
     public void DisplayNextSentence()
@@ -52,9 +57,15 @@ public class DialogManager : MonoBehaviour
         StopAllCoroutines();
         StartCoroutine(TypeSentence(sentence));
 
-        if (sentences.Count == 0)
+        if (sentences.Count == 0 && YesButton != null && NoButton != null)
         {
             GiveChoice();
+            return;
+        }
+
+        if (sentences.Count == 0)
+        {
+            EndDialog();
         }
     }
 
@@ -71,6 +82,7 @@ public class DialogManager : MonoBehaviour
 
     public void GiveChoice()
     {
+        NextButton.SetActive(false);
         YesButton.SetActive(true);
         NoButton.SetActive(true);
     }
@@ -78,7 +90,10 @@ public class DialogManager : MonoBehaviour
     public void EndDialog()
     {
         boxAnim.SetBool("startOpen", false);
-        YesButton.SetActive(false);
-        NoButton.SetActive(false);
+        if (!gameFlag && YesButton !=null && NoButton !=null)
+        {
+            YesButton.SetActive(false);
+            NoButton.SetActive(false);
+        }
     }
 }

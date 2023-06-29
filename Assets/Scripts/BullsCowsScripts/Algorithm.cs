@@ -10,12 +10,16 @@ namespace BullsCows
         public int AttemptsNum { get; set; }
         private string hiddenNumber;
         private static System.Random random;
+        private FlagValue flags;
+        private CodeValue code;
 
-        public Algorithm()
+        public Algorithm(FlagValue flags, CodeValue code)
         {
             AttemptsNum = 0;
             random = new System.Random();
             hiddenNumber = GenerateRandomNumber().ToString();
+            this.flags = flags;
+            this.code = code;
         }
 
         private static int GenerateRandomNumber()
@@ -59,7 +63,7 @@ namespace BullsCows
         {
             if (cowsNum == 0) return "0 коров";
             if (cowsNum == 1) return "1 корова";
-            return String.Format("{0} корова", cowsNum);
+            return String.Format("{0} коровы", cowsNum);
         }
 
         private string CorrectBullsWriting(int bullsNum)
@@ -105,7 +109,7 @@ namespace BullsCows
 
             if (userNumber == hiddenNumber)
             {
-                answer.SetWin(hiddenNumber);
+                answer.SetWin(hiddenNumber, flags.bullsFlag, code.code[0]);
             }
             else if (AttemptsNum == MaxAttemptsNum)
             {

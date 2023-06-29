@@ -9,7 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 540814882899b1242a20f44b26de32dd, type: 3}
-  m_Name: Code
+  m_Script: {fileID: 11500000, guid: 50973f661b6cd8948bb5e1267a0eb7af, type: 3}
+  m_Name: MissionsComplete
   m_EditorClassIdentifier: 
-  code: 8483
+  bullsFlag: 0
+  pathFlag: 0
+  checkersFlag: 0
+  mathFlag: 0

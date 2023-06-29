@@ -8,6 +8,7 @@ public class PauseMenu : MonoBehaviour
 {
     public bool PauseGame;
     public GameObject pauseGameMenu;
+    public CodeValue code;
 
     void Update()
     {
@@ -41,9 +42,10 @@ public class PauseMenu : MonoBehaviour
     public void LoadMenu(Hero player)
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene(6);
+        SceneManager.LoadScene(0);
         PlayerPrefs.SetInt("Current scene", SceneManager.GetActiveScene().buildIndex);
         PlayerPrefs.SetFloat("xPos", player.GetX());
         PlayerPrefs.SetFloat("yPos", player.GetY());
+        PlayerPrefs.SetString("code", code.code);
     }
 }

@@ -12,6 +12,8 @@ namespace BullsCows
         public Text WinText;
         public Transform AnswersContainer;
         private Algorithm Algorithm;
+        public FlagValue Missions;
+        public CodeValue code;
 
         private void AddAnswer(string answerText)
         {
@@ -31,6 +33,8 @@ namespace BullsCows
         {
             WinText.text = text;
             WinAnimator.SetTrigger("OpenWinPopup");
+
+            Missions.bullsFlag = true;
 
             UserNumber.text = "";
         }
@@ -88,7 +92,7 @@ namespace BullsCows
                 }
             }
 
-            Algorithm = new Algorithm();
+            Algorithm = new Algorithm(Missions, code);
         }
 
         public void OnErrorOrLosePopupClose()
@@ -101,7 +105,7 @@ namespace BullsCows
 
         void Start()
         {
-            Algorithm = new Algorithm();
+            Algorithm = new Algorithm(Missions, code);
         }
     }
 }

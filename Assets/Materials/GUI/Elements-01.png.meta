@@ -348,13 +348,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Elements-01_0
+      name: PinNum
       rect:
         serializedVersion: 2
-        x: 1373
-        y: 1892
-        width: 311
-        height: 145
+        x: 902
+        y: 1148
+        width: 223
+        height: 224
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -362,7 +362,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8f20eef6f89e5c0468bbd147f8794dfb
+      spriteID: e1778821d7f60784ea1d80e11ae87f8b
       internalID: -248052410
       vertices: []
       indices: 
@@ -384,12 +384,12 @@ TextureImporter:
       AnswerSmallPanel: -1182403262
       CodeNumber: -1443032765
       CodePanelBack: 72087847
-      Elements-01_0: -248052410
       Elements-01_1: 305354134
       Elements-01_2: 1460989555
       Elements-01_3: -1495963905
       Elements-01_4: 2061919663
       MegaPanel: -428015062
+      PinNum: -248052410
       RulesButton: 2136940893
       RulesButtonYellow: 305354134
       RulesPanel: -1815696531

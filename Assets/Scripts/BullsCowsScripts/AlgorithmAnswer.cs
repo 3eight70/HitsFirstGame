@@ -24,10 +24,16 @@ namespace BullsCows
             Status = AlgorithmAnswerStatus.Default;
         }
 
-        public void SetWin(string number)
+        public void SetWin(string number, bool winFlag, char pinNumber)
         {
             Status = AlgorithmAnswerStatus.Win;
-            ExtraText = String.Format("Поздравляю, число {0} отгадано.", number);
+            if (winFlag)
+            {
+                ExtraText = String.Format("А ты хорош, поздравляю, угадал число {0}.", number);
+            } else
+            {
+                ExtraText = String.Format("А ты оказался умным, число {0} отгадано. Поздравляю тебя, вот твоя цифра: " + pinNumber, number);
+            }
         }
 
         public void SetError()

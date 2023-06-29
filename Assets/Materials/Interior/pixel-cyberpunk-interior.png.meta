@@ -575,7 +575,7 @@ TextureImporter:
         width: 62
         height: 29
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -583,6 +583,27 @@ TextureImporter:
       bones: []
       spriteID: e03ae12c3982bd64594ba2944e78ea1d
       internalID: 1320978560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pixel-cyberpunk-interior_23
+      rect:
+        serializedVersion: 2
+        x: 322
+        y: 226
+        width: 22
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6b7f3b87399eb6442a5cd5490c28a09b
+      internalID: -1529137233
       vertices: []
       indices: 
       edges: []
@@ -614,6 +635,7 @@ TextureImporter:
       pixel-cyberpunk-interior_20: -456617233
       pixel-cyberpunk-interior_21: 872717762
       pixel-cyberpunk-interior_22: 1320978560
+      pixel-cyberpunk-interior_23: -1529137233
       pixel-cyberpunk-interior_3: 2034115386
       pixel-cyberpunk-interior_4: 662595351
       pixel-cyberpunk-interior_5: -17974725
