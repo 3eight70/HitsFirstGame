@@ -57,10 +57,12 @@ public class UserPathManager
 
     private void SetNextTile(Tile tile)
     {
-        tile.SetVisited();
         UserPath.Add(tile);
+
         LastTile = tile;
         UpdateAvailableTiles();
+        tile.SetVisited();
+        tile.UserPathLogic.SetShowAccScore();
 
         if (LastTile.Position == DestinationTile.Position)
         {
@@ -82,13 +84,18 @@ public class UserPathManager
 
         foreach (var tile in neighbors)
         {
-            if (tile.IsUserVisited()) continue;
+            if (tile.IsUserVisited())
+            {
+                tile.UserPathLogic.SetShowAccScore();
+                continue;
+            }
 
             var newAccScore = (LastTile.UserAccScore() + tile.Score);
 
-            if (newAccScore > 0)
+            if (newAccScore >= 0)
             {
                 tile.SetUserAvailable(newAccScore);
+                tile.UserPathLogic.SetShowAccScore();
             }
             else
             {
@@ -103,10 +110,7 @@ public class UserPathManager
     {
         foreach (var tile in AvailableTiles)
         {
-            if (tile.Position != LastTile.Position)
-            {
-                tile.ResetAvailableUserLogic();
-            }
+            tile.ResetAvailableUserLogic();
         }
     }
 

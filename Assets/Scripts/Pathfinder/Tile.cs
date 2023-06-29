@@ -4,13 +4,13 @@ using TMPro;
 
 public class Tile : MonoBehaviour
 {
-    public Color ProfitTileColor, DamageTileColor;
-    public SpriteRenderer Renderer;
-    public GameObject Hover;
-    public GameObject Visited;
-    public GameObject Available;
-    public GameObject ErrorAvailable;
-    public GameObject PartOfBestPath;
+    [SerializeField] private Color ProfitTileColor, DamageTileColor;
+    [SerializeField] private SpriteRenderer Renderer;
+    [SerializeField] private GameObject Hover;
+    [SerializeField] private GameObject Visited;
+    [SerializeField] private GameObject Available;
+    [SerializeField] private GameObject ErrorAvailable;
+    [SerializeField] private GameObject PartOfBestPath;
     private TextMeshPro ScoreText;
     private TextMeshPro AccScoreText;
 
@@ -20,12 +20,28 @@ public class Tile : MonoBehaviour
     public UserTileLogic UserPathLogic { get; private set; }
     public int Score { get; private set; }
 
+
     public void Start()
+    {
+        SetScoreTexts();
+    }
+
+    private void SetScoreTexts()
     {
         TextMeshPro[] texts = GetComponentsInChildren<TextMeshPro>();
 
-        if (texts[0] != null) ScoreText = texts[0];
-        if (texts[1] != null) AccScoreText = texts[1];
+        string layerName = "tiles";
+
+        if (texts[0] != null)
+        {
+            ScoreText = texts[0];
+            ScoreText.renderer.sortingLayerName = layerName;
+        }
+        if (texts[1] != null)
+        {
+            AccScoreText = texts[1];
+            AccScoreText.renderer.sortingLayerName = layerName;
+        }
     }
 
     public void Init(UserPathManager userPathManager, Vector2 position, int score)
@@ -59,7 +75,7 @@ public class Tile : MonoBehaviour
 
         if (AccScoreText != null)
         {
-            AccScoreText.text = UserPathLogic.AccScore != 0 ? UserPathLogic.AccScore.ToString() : "";
+            AccScoreText.text = UserPathLogic.AccScore != 0 && UserPathLogic.ShowAccScore ? UserPathLogic.AccScore.ToString() : "";
         }
     }
 
@@ -109,8 +125,9 @@ public class Tile : MonoBehaviour
 
     public void SetStartPoint()
     {
-        UserPathLogic.AccScore = 10;
-        SetScore(10);
+        UserPathLogic.AccScore = 20;
+        BestPathLogic.AccScore = 20;
+        SetScore(20);
         UserPathLogic.SetVisited();
     }
 
@@ -122,7 +139,7 @@ public class Tile : MonoBehaviour
     public void ResetAvailableUserLogic()
     {
         UserPathLogic.UnsetAvailable();
-        UserPathLogic.AccScore = 0;
+        UserPathLogic.HideAccScore();
     }
 
     public void ResetVisitUserLogic()
@@ -131,11 +148,11 @@ public class Tile : MonoBehaviour
         UserPathLogic.UnsetVisited();
     }
 
-    public void FullReset()
+    public void FullReset(int score)
     {
         BestPathLogic = new BestTileLogic(this, Position, Score);
         UserPathLogic = new UserTileLogic(this, Position);
-        Score = 0;
+        SetScore(score);
     }
 
     public bool IsUserVisited() => UserPathLogic.IsVisited;

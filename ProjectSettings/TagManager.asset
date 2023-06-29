@@ -3,11 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - Checker
-  - ExitPoint
-  - Toggle
-  - Slider
+  tags: []
   layers:
   - Default
   - TransparentFX
@@ -42,6 +38,12 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: tiles
+    uniqueID: 3542855591
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: canvas
+    uniqueID: 3985699151
     locked: 0

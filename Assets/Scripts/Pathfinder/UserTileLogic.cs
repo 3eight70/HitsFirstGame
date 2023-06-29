@@ -11,6 +11,7 @@ public class UserTileLogic
     public bool IsVisited { get; private set; }
     public bool IsErrorAvailable { get; private set; }
     public bool IsAvailable { get; private set; }
+    public bool ShowAccScore { get; private set; }
     public Tile ParentTile { get; private set; }
     public int AccScore { get; set; }
 
@@ -23,6 +24,7 @@ public class UserTileLogic
         IsVisited = false;
         IsErrorAvailable = false;
         IsAvailable = false;
+        ShowAccScore = true;
     }
 
     public void SetAvailable(int newAccScore)
@@ -57,5 +59,15 @@ public class UserTileLogic
     {
         if (!IsAvailable) return;
         IsVisited = !IsVisited;
+    }
+
+    public void HideAccScore()
+    {
+        ShowAccScore = false;
+    }
+
+    public void SetShowAccScore()
+    {
+        ShowAccScore = true;
     }
 }

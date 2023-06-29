@@ -6,11 +6,11 @@ using UnityEngine.UI;
 
 public class GridManager : MonoBehaviour
 {
+    [SerializeField] private GameObject TilesContainer;
     [SerializeField] private Tile TilePrefab;
     [SerializeField] private Transform Camera;
-    private int PxPerTile = 70;
-    public int Width;
-    public int Height;
+    [SerializeField] private int Width;
+    [SerializeField] private int Height;
     private Dictionary<Vector2, Tile> Tiles = new Dictionary<Vector2, Tile>();
     private UserPathManager UserManager;
     private Tile StartTile;
@@ -20,24 +20,19 @@ public class GridManager : MonoBehaviour
     {
         UserManager = new UserPathManager(this);
 
-        SetSize();
         InitGrid();
-        MoveCamera();
+        // MoveCamera();
         GenerateScores();
         UserManager.Init(StartTile, DestinationTile);
+
+        // PathfinderUI.Instance.ShowWinPopup("dfssfdsdf");
     }
 
     public void GenerateGrid()
     {
-        GenerateScores();
         UserManager = new UserPathManager(this);
+        GenerateScores();
         UserManager.Init(StartTile, DestinationTile);
-    }
-
-    private void SetSize()
-    {
-        Width = Screen.width / PxPerTile - 1;
-        Height = Screen.height / PxPerTile - 2;
     }
 
     private void InitGrid()
@@ -56,7 +51,7 @@ public class GridManager : MonoBehaviour
 
     private void CreateTile(int x, int y)
     {
-        var newTile = Instantiate(TilePrefab, new Vector3(x, y), Quaternion.identity);
+        var newTile = Instantiate(TilePrefab, new Vector3(x, y), Quaternion.identity, TilesContainer.transform);
         newTile.name = String.Format("Tile-{0}{1}", x, y);
         var position = new Vector2(x, y);
 
@@ -76,16 +71,15 @@ public class GridManager : MonoBehaviour
         {
             for (int y = 0; y < Height; y++)
             {
-                int randomSign = UnityEngine.Random.Range(1, 3);
+                int randomSign = UnityEngine.Random.Range(1, 4);
                 int randomScore = 0;
 
-                randomScore = randomSign == 1 ? UnityEngine.Random.Range(-10, -2) : UnityEngine.Random.Range(-1, 10);
+                randomScore = randomSign == 1 ? UnityEngine.Random.Range(-5, -2) : UnityEngine.Random.Range(-1, 2);
                 int randomDirection = UnityEngine.Random.Range(1, 3);
 
                 Tile bottomTile = GetTileAtPosition(new Vector2(x, y + 1));
                 Tile rightTile = GetTileAtPosition(new Vector2(x + 1, y));
 
-                // bottom
                 if (bottomTile != null && (randomDirection == 1 || rightTile == null))
                 {
                     bottomTile.SetScore(randomScore);
@@ -95,9 +89,9 @@ public class GridManager : MonoBehaviour
                     rightTile.SetScore(randomScore);
                 }
 
-                var tile = GetTileAtPosition(new Vector2(x, y));
-                tile.FullReset();
-                tile.SetScore(randomScore);
+                Vector2 position = new Vector2(x, y);
+                var tile = GetTileAtPosition(position);
+                tile.Init(UserManager, position, randomScore);
             }
         }
     }
@@ -153,6 +147,7 @@ public class GridManager : MonoBehaviour
 
     public void UserWin(int userAccScore)
     {
+        Debug.Log("User win");
         int bestPathScore = ExecuteBestPathfinder();
         PathfinderUI.Instance.ShowWinPopup(winMessage(userAccScore, bestPathScore));
     }

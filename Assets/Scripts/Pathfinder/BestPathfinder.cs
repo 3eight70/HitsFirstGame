@@ -54,7 +54,7 @@ public class BestPathfinder
             openSet.RemoveAt(win);
             from.Add(currentTile);
             List<Tile> neighbors = Grid.GetNeighbors(currentTile.Position);
-            List<BestTileLogic> logicNeighbors = toLogicNeighbors(currentTile.AccScore, neighbors);
+            List<BestTileLogic> logicNeighbors = ToLogicNeighbors(currentTile.AccScore, neighbors);
 
             foreach (BestTileLogic neighborLogic in logicNeighbors)
             {
@@ -83,13 +83,13 @@ public class BestPathfinder
         return new List<Tile>();
     }
 
-    private List<BestTileLogic> toLogicNeighbors(int accScore, List<Tile> neighbors)
+    private List<BestTileLogic> ToLogicNeighbors(int accScore, List<Tile> neighbors)
     {
         List<BestTileLogic> logicNeighbors = new List<BestTileLogic>();
 
         foreach (Tile neighbor in neighbors)
         {
-            if (accScore + neighbor.Score > 0)
+            if ((accScore + neighbor.Score) >= 0)
             {
                 logicNeighbors.Add(neighbor.BestPathLogic);
             }
