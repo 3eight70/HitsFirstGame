@@ -127,9 +127,11 @@ public class Tile : MonoBehaviour
 
     public void SetStartPoint()
     {
-        UserPathLogic.AccScore = 20;
-        BestPathLogic.AccScore = 20;
-        SetScore(20);
+        int startScore = 15;
+
+        UserPathLogic.AccScore = startScore;
+        BestPathLogic.AccScore = startScore;
+        SetScore(startScore);
         UserPathLogic.SetVisited();
     }
 

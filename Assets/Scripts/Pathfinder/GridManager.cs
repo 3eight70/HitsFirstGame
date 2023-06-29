@@ -25,7 +25,9 @@ public class GridManager : MonoBehaviour
         GenerateScores();
         UserManager.Init(StartTile, DestinationTile);
 
-        PathfinderUI.Instance.ShowWinPopup("dfssfdsdf");
+        UserWin(0);
+
+        // PathfinderUI.Instance.ShowWinPopup("dfssfdsdf");
     }
 
     public void GenerateGrid()
