@@ -22,6 +22,11 @@ public class Board : MonoBehaviour
     void GenerateBoard()
     {
         cells = new GameObject[boardSize, boardSize];
+        int whitecnt = 1;
+        int blackcnt = 1;
+        GameObject whitecheckerPrefab = Resources.Load<GameObject>($"Checkers/white-regular");
+        GameObject blackcheckerPrefab = Resources.Load<GameObject>($"Checkers/black-regular");
+        //Resources.
         for (int x = 0; x < boardSize; x++)
         {
             for (int y = 0; y < boardSize; y++)
@@ -35,6 +40,30 @@ public class Board : MonoBehaviour
                 cell.name = "Cell " + x + " " + y;
 
                 cells[x, y] = cell;
+
+                var temp = cam.machine.UnconvertCord((x, y));
+                if (cam.machine.numeralBoard[temp.Item1, temp.Item2] == -1)
+                {
+                    GameObject checkerObject = Instantiate(whitecheckerPrefab);
+                    //checkerObject.name = checkerName;
+                    checkerObject.SetActive(true);
+                    checkerObject.transform.position = new Vector2(x * (float)0.9791937 - (float)3.43, y * (float)0.975811 - (float)3.43);
+                    //string checkerName = $"white-regular ({whitecnt})";
+                    //GameObject checkerTransform = GameObject.Find(checkerName);
+                    //checkerTransform.SetActive(true);
+                    //checkerTransform.transform.position = new Vector2(x * (float)0.9791937 - (float)3.43, y * (float)0.975811 - (float)3.43);
+                }
+                if (cam.machine.numeralBoard[temp.Item1, temp.Item2] == 1)
+                {
+                    GameObject checkerObject = Instantiate(blackcheckerPrefab);
+                    //checkerObject.name = checkerName;
+                    checkerObject.SetActive(true);
+                    checkerObject.transform.position = new Vector2(x * (float)0.9791937 - (float)3.43, y * (float)0.975811 - (float)3.43);
+                    //string checkerName = $"white-regular ({whitecnt})";
+                    //GameObject checkerTransform = GameObject.Find(checkerName);
+                    //checkerTransform.SetActive(true);
+                    //checkerTransform.transform.position = new Vector2(x * (float)0.9791937 - (float)3.43, y * (float)0.975811 - (float)3.43);
+                }
             }
         }
     }
@@ -147,7 +176,7 @@ public class ClickAndMove
         Transform clickedItem = GetCheckerAt(clickPosition);
 
         if (clickedItem == null || clickedItem.tag == "WhiteChecker")
-            return;
+        return;
         //if (clickedItem == null)
             //return;
         
@@ -372,7 +401,7 @@ public class VerySmartMachine
 {
     private Board board;
     private const int BoardSize = 8;
-    private int[,] numeralBoard = new int[8, 8];
+    public int[,] numeralBoard = new int[8, 8];
     private ClickAndMove clickandmove;
     
 
@@ -386,7 +415,7 @@ public class VerySmartMachine
     }
     public void BoardInit()
     {
-        int cnt = 0;
+        /*int cnt = 0;
         for (int x = 0; x < 8; x++)
         {
             for (int y = 0; y < 8; y++)
@@ -402,6 +431,31 @@ public class VerySmartMachine
                     numeralBoard[7 - x, 7 - y] = 1;
                 }
             }
+        }*/
+        int choosenum = UnityEngine.Random.Range(1, 3);
+        List<(int, int)> whiteCheckersPositions = new List<(int, int)>();
+        List<(int, int)> blackCheckersPositions = new List<(int, int)>();
+        if (choosenum == 1)
+        {
+            whiteCheckersPositions = new List<(int, int)> { (0, 3), (0, 5), (1, 2), (2, 3), (3, 0), (3, 4), (3, 6), (4, 5), (4, 7) };
+            blackCheckersPositions = new List<(int, int)> { (2, 7), (5, 0), (5, 2), (5, 4), (6, 3), (6, 7), (7, 2), (7, 6) };
+        }
+        else
+        {
+            whiteCheckersPositions = new List<(int, int)> { (3, 0), (5, 2), (4, 3), (4, 5) };
+            blackCheckersPositions = new List<(int, int)> { (5, 0), (7, 2), (7, 4), (7, 6), (6, 7) };
+        }
+    
+        
+
+        foreach (var el in whiteCheckersPositions)
+        {
+            numeralBoard[el.Item1, el.Item2] = -1;
+        }
+
+        foreach (var el in blackCheckersPositions)
+        {
+            numeralBoard[el.Item1, el.Item2] = 1;
         }
     }
 
@@ -669,7 +723,7 @@ public class VerySmartMachine
         return poses;
     }
 
-
+   
 
     public List<(int, int)> MachineCheckers()
     {
@@ -785,10 +839,10 @@ public class VerySmartMachine
 
             }
         }
-        Debug.Log($"Начальная клетка: {pair[0]}");
-        Debug.Log($"Конечная клетка: {pair[1]}");
-        Debug.Log($"Взятая шашка: {pickedChecker}");
-        Debug.Log($"Целевая клетка: {targetcell}");
+        //Debug.Log($"Начальная клетка: {pair[0]}");
+        //Debug.Log($"Конечная клетка: {pair[1]}");
+        //Debug.Log($"Взятая шашка: {pickedChecker}");
+        //Debug.Log($"Целевая клетка: {targetcell}");
         
 
         
@@ -809,6 +863,58 @@ public class VerySmartMachine
         clickandmove.state = ClickAndMove.State.none;
         
     }
+
+    public int UpgradedController(int[,] board, int side_of_attacker)
+    {
+        int[,] weights =
+        {
+        {4, 3, 2, 1, 1, 2, 3, 4},
+        {3, 4, 3, 2, 2, 3, 4, 3},
+        {2, 3, 4, 3, 3, 4, 3, 2},
+        {1, 2, 3, 4, 4, 3, 2, 1},
+        {1, 2, 3, 4, 4, 3, 2, 1},
+        {2, 3, 4, 3, 3, 4, 3, 2},
+        {3, 4, 3, 2, 2, 3, 4, 3},
+        {4, 3, 2, 1, 1, 2, 3, 4}
+        };
+        /*int[,] weights =
+        {
+        {1, 1, 1, 1, 1, 1, 1, 1},
+        {2, 2, 2, 2, 2, 2, 2, 2},
+        {3, 3, 3, 3, 3, 3, 3, 3},
+        {4, 4, 4, 4, 4, 4, 4, 4},
+        {5, 5, 5, 5, 5, 5, 5, 5},
+        {6, 6, 6, 6, 6, 6, 6, 6},
+        {7, 7, 7, 7, 7, 7, 7, 7},
+        {8, 8, 8, 8, 8, 8, 8, 8}
+        };*/
+
+        int users = 0;
+        int enemy = 0;
+        for (int x = 0; x < 8; x++)
+        {
+            for (int y = 0; y < 8; y++)
+            {
+                if (board[x, y] == side_of_attacker)
+                    users += weights[x, y];
+                if (board[x, y] == -1 * side_of_attacker)
+                    enemy += weights[x, y];
+            }
+        }
+
+        if (enemy == 0 && users > 0)
+        {
+            return 1000;
+        }
+        else if (users == 0 && enemy > 0)
+        {
+            return -1000;
+        }
+        return users - enemy;
+    }
+
+
+
 
     public int SituationController(int[,] board, int side_of_attacker)
     {
@@ -888,8 +994,9 @@ public class VerySmartMachine
         if (depth == 0 || lose_condition(board) == 1)
         {
             //return lose_condition(board);
-           
-            return SituationController(board, -1);
+            //Debug.Log($"Результат: {SituationController(board, -1)}");
+            //return SituationController(board, -1);
+            return UpgradedController(board, -1);
         }
 
         if (maximizing_side == -1)
@@ -898,7 +1005,7 @@ public class VerySmartMachine
             foreach (var pos in GetPairPosesOfSide(board, maximizing_side))
             {
                 List<(int, int)> posmoves = PossibleMoves(board, pos, maximizing_side);
-                //Debug.Log($"{pos} {movesshower(posmoves)}");
+               
                 foreach (var move in posmoves)
                 {
                     int[,] updatedboard = process_move(board, pos, move, maximizing_side);
@@ -916,6 +1023,7 @@ public class VerySmartMachine
             foreach (var pos in GetPairPosesOfSide(board, maximizing_side))
             {
                 List<(int, int)> posmoves = PossibleMoves(board, pos, maximizing_side);
+                
                 foreach (var move in posmoves)
                 {
                     int[,] updatedboard = process_move(board, pos, move, maximizing_side);
@@ -936,6 +1044,7 @@ public class VerySmartMachine
         if (maximizing_side == -1)
         {
             float bestMoveEv = float.NegativeInfinity;
+            
             foreach (var pos in GetPairPosesOfSide(board, maximizing_side))
             {
                 
@@ -953,6 +1062,7 @@ public class VerySmartMachine
                     if (eval > bestMoveEv)
                     {
                         bestMoveEv = eval;
+                        geniusmove.Clear();
                         geniusmove.Add(pos);
                         geniusmove.Add(move);
                     }
@@ -977,6 +1087,7 @@ public class VerySmartMachine
                     if (eval < bestMoveEv)
                     {
                         bestMoveEv = eval;
+                        geniusmove.Clear();
                         geniusmove.Add(pos);
                         geniusmove.Add(move);
                     }
@@ -984,6 +1095,7 @@ public class VerySmartMachine
 
             }
         }
+        Debug.Log(geniusmove.Count);
         return geniusmove;
     }
 
