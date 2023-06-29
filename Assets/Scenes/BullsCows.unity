@@ -2318,7 +2318,6 @@ MonoBehaviour:
   WinAnimator: {fileID: 1971839035}
   ErrorAnimator: {fileID: 1025966092}
   UserNumber: {fileID: 16474147}
-  TextFieldPrefab: {fileID: 5951909006455223476, guid: f86d4ba0017c2f7f38fd15c4c3e52b47, type: 3}
   ErrorText: {fileID: 394099562}
   WinText: {fileID: 453198307}
   AnswersContainer: {fileID: 601561775}
