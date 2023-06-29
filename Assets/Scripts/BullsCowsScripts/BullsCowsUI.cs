@@ -1,29 +1,107 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BullsCowsUI : MonoBehaviour
+namespace BullsCows
 {
-    public static BullsCowsUI Instance;
-
-    [SerializeField] private Animator WinAnimator;
-    [SerializeField] private Animator ErrorAnimator;
-    [SerializeField] private Text ErrorText;
-    [SerializeField] private Text WinText;
-
-    void Awake() 
+    public class BullsCowsUI : MonoBehaviour
     {
-        Instance = this;
-    }
+        public Animator WinAnimator;
+        public Animator ErrorAnimator;
+        public InputField UserNumber;
+        public Text ErrorText;
+        public Text WinText;
+        public Transform AnswersContainer;
+        private Algorithm Algorithm;
 
-    public void ShowWinPopup(string text)
-    {
-        WinText.text = text;
-        WinAnimator.SetTrigger("OpenWinPopup");
-    }
+        private void AddAnswer(string answerText)
+        {
+            Text[] textFields = AnswersContainer.GetComponentsInChildren<Text>();
 
-    public void ShowErrorPopup(string text)
-    {
-        ErrorText.text = text;
-        ErrorAnimator.SetTrigger("OnErrorUserNumber");
+            var currentAnswerIndex = 2 * Algorithm.AttemptsNum - 1;
+
+            Text textField = textFields[currentAnswerIndex];
+
+            if (textField != null && textField.name != "Index")
+            {
+                textField.text = answerText;
+            }
+        }
+
+        private void OnUserWin(string text)
+        {
+            WinText.text = text;
+            WinAnimator.SetTrigger("OpenWinPopup");
+
+            UserNumber.text = "";
+        }
+
+        private void OnTriggerErrorOrLose(string text)
+        {
+            ErrorText.text = text;
+            ErrorAnimator.SetTrigger("OnErrorUserNumber");
+        }
+
+        public void OnUserTryClick()
+        {
+            AlgorithmAnswer result = Algorithm.Execute(UserNumber.text);
+
+            if (result.Status == AlgorithmAnswerStatus.Error)
+            {
+                OnTriggerErrorOrLose(result.ExtraText);
+
+                return;
+            }
+
+            if (result.Status == AlgorithmAnswerStatus.Incorrect)
+            {
+                AddAnswer(result.Text);
+                UserNumber.text = "";
+
+                return;
+            }
+
+            if (result.Status == AlgorithmAnswerStatus.Win)
+            {
+                OnUserWin(result.ExtraText);
+
+                return;
+            }
+
+            if (result.Status == AlgorithmAnswerStatus.Lose)
+            {
+                AddAnswer(result.Text);
+                OnTriggerErrorOrLose(result.ExtraText);
+
+                return;
+            }
+        }
+
+        public void ResetGame()
+        {
+            Text[] textFields = AnswersContainer.GetComponentsInChildren<Text>();
+
+            foreach (var textField in textFields)
+            {
+                if (textField != null && textField.name != "Index")
+                {
+                    textField.text = "";
+                }
+            }
+
+            Algorithm = new Algorithm();
+        }
+
+        public void OnErrorOrLosePopupClose()
+        {
+            if (Algorithm.isLose()) {
+                ResetGame();
+                UserNumber.text = "";
+            }
+        }
+
+        void Start()
+        {
+            Algorithm = new Algorithm();
+        }
     }
 }
