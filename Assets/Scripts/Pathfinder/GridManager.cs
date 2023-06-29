@@ -151,5 +151,5 @@ public class GridManager : MonoBehaviour
     }
 
     private string winMessage(int userScore, int bestScore) =>
-        String.Format("Поздравляю, ваш счёт: {0}\n Лучший счёт: {1}", userScore, bestScore);
+        String.Format("Поздравляю, ваш счёт: {0}\n Лучший счёт: {1}", userScore, Math.Max(userScore, bestScore));
 }

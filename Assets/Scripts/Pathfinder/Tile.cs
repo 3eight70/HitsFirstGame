@@ -48,6 +48,8 @@ public class Tile : MonoBehaviour
 
     public void Init(UserPathManager userPathManager, Vector2 position, int score)
     {
+        PartOfBestPath.SetActive(false);
+        
         UserPathManager = userPathManager;
         Position = position;
         Score = score;
