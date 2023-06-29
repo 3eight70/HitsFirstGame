@@ -36,11 +36,13 @@ public class Tile : MonoBehaviour
         {
             ScoreText = texts[0];
             ScoreText.renderer.sortingLayerName = layerName;
+            ScoreText.sortingOrder = 12;
         }
         if (texts[1] != null)
         {
             AccScoreText = texts[1];
             AccScoreText.renderer.sortingLayerName = layerName;
+            AccScoreText.sortingOrder = 13;
         }
     }
 

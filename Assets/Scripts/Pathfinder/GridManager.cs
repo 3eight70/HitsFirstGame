@@ -21,11 +21,11 @@ public class GridManager : MonoBehaviour
         UserManager = new UserPathManager(this);
 
         InitGrid();
-        // MoveCamera();
+        MoveCamera();
         GenerateScores();
         UserManager.Init(StartTile, DestinationTile);
 
-        // PathfinderUI.Instance.ShowWinPopup("dfssfdsdf");
+        PathfinderUI.Instance.ShowWinPopup("dfssfdsdf");
     }
 
     public void GenerateGrid()
