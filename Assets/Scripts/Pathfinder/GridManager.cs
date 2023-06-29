@@ -24,10 +24,6 @@ public class GridManager : MonoBehaviour
         MoveCamera();
         GenerateScores();
         UserManager.Init(StartTile, DestinationTile);
-
-        UserWin(0);
-
-        // PathfinderUI.Instance.ShowWinPopup("dfssfdsdf");
     }
 
     public void GenerateGrid()
@@ -64,7 +60,7 @@ public class GridManager : MonoBehaviour
 
     private void MoveCamera()
     {
-        Camera.transform.position = new Vector3(Width / 2f - 0.5f, Height / 2f - 0.5f, -10);
+        Camera.transform.position = new Vector3(Width / 2f - 0.5f, Height / 2f, -10);
     }
 
     private void GenerateScores()
