@@ -446,11 +446,11 @@ public class VerySmartMachine
         {
             for (int j = 0; j<8; j++)
             {
-                if (numeralBoard[i, j] == 1)
+                if (numeralBoard[i, j] == 1 && bad_cell(numeralBoard, (i, j), 1) == false)
                 {
                     first++;
                 }
-                if (numeralBoard[i, j] == -1)
+                if (numeralBoard[i, j] == -1 && bad_cell(numeralBoard, (i, j), -1) == false)
                 {
                     second++;
                 }
