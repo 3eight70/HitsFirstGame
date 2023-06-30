@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
 
 public class MainMenu : MonoBehaviour
 {
@@ -18,7 +19,6 @@ public class MainMenu : MonoBehaviour
         missions.checkersFlag = false;
         missions.mathFlag = false;
         missions.pathFlag = false;
-        SceneManager.LoadScene(1);
     }
 
     public void ExitGame()
@@ -33,5 +33,9 @@ public class MainMenu : MonoBehaviour
         position.initialValue.z = 0;
         code.code = PlayerPrefs.GetString("code");
         SceneManager.LoadScene(PlayerPrefs.GetInt("Current scene"));
+        missions.bullsFlag = Convert.ToBoolean(PlayerPrefs.GetInt("bulls"));
+        missions.mathFlag = Convert.ToBoolean(PlayerPrefs.GetInt("math"));
+        missions.pathFlag = Convert.ToBoolean(PlayerPrefs.GetInt("path"));
+        missions.checkersFlag = Convert.ToBoolean(PlayerPrefs.GetInt("checkers"));
     }
 }

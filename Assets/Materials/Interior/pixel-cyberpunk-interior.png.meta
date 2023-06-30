@@ -596,7 +596,7 @@ TextureImporter:
         width: 22
         height: 30
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -636,6 +636,7 @@ TextureImporter:
       pixel-cyberpunk-interior_21: 872717762
       pixel-cyberpunk-interior_22: 1320978560
       pixel-cyberpunk-interior_23: -1529137233
+      pixel-cyberpunk-interior_24: -1230075954
       pixel-cyberpunk-interior_3: 2034115386
       pixel-cyberpunk-interior_4: 662595351
       pixel-cyberpunk-interior_5: -17974725

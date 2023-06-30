@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System;
 
 public class PauseMenu : MonoBehaviour
 {
     public bool PauseGame;
     public GameObject pauseGameMenu;
     public CodeValue code;
+    public FlagValue missions;
 
     void Update()
     {
@@ -47,5 +49,9 @@ public class PauseMenu : MonoBehaviour
         PlayerPrefs.SetFloat("xPos", player.GetX());
         PlayerPrefs.SetFloat("yPos", player.GetY());
         PlayerPrefs.SetString("code", code.code);
+        PlayerPrefs.SetInt("bulls", Convert.ToInt32(missions.bullsFlag));
+        PlayerPrefs.SetInt("math", Convert.ToInt32(missions.mathFlag));
+        PlayerPrefs.SetInt("path", Convert.ToInt32(missions.pathFlag));
+        PlayerPrefs.SetInt("checkers", Convert.ToInt32(missions.checkersFlag));
     }
 }
