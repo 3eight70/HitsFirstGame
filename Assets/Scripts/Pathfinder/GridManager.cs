@@ -145,7 +145,6 @@ public class GridManager : MonoBehaviour
 
     public void UserWin(int userAccScore)
     {
-        Debug.Log("User win");
         int bestPathScore = ExecuteBestPathfinder();
         PathfinderUI.Instance.ShowWinPopup();
     }

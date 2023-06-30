@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class DialogChecker : MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class DialogChecker : MonoBehaviour
 
     public bool CheckFlag()
     {
-        if (flags.bullsFlag)
+        if (flags.bullsFlag && SceneManager.GetActiveScene().buildIndex == 5)
         {
             startButtonWithoutFlag.SetActive(false);
             startButtonWithFlag.SetActive(true);
@@ -30,19 +31,18 @@ public class DialogChecker : MonoBehaviour
             return true;
         }
 
-        else if (flags.mathFlag)
+        else if (flags.mathFlag && SceneManager.GetActiveScene().buildIndex == 6)
         {
             return true;
         }
 
-        else if (flags.checkersFlag)
+        else if (flags.checkersFlag && SceneManager.GetActiveScene().buildIndex == 4)
         {
             startButtonWithoutFlag.SetActive(false);
             startButtonWithFlag.SetActive(true);
             DialogWithoutFlag.SetActive(false);
             DialogWithFlag.SetActive(true);
-            winText.text = "Раз уж ты меня переиграл, то вот твоя цифра: " + code.code[0] + ". Сыграем еще разок?";
-
+            winText.text = "Раз уж ты меня переиграл, то вот твоя цифра: " + code.code[3] + ". Сыграем еще разок?";
             return true;
         }
 

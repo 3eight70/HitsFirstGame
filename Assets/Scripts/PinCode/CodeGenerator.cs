@@ -5,6 +5,7 @@ using UnityEngine;
 public class CodeGenerator : MonoBehaviour
 {
     public CodeValue codeValue;
+    public GameValue newGame;
     public string code;
 
     public void GenerateCode()
@@ -14,5 +15,7 @@ public class CodeGenerator : MonoBehaviour
         code = val.ToString();
 
         codeValue.code = code;
+
+        newGame.newGame = true;
     }
 }

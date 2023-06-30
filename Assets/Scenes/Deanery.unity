@@ -1535,6 +1535,7 @@ MonoBehaviour:
   pauseGameMenu: {fileID: 618905089}
   code: {fileID: 11400000, guid: 85caea13cf74e1043a205e19b54f1b82, type: 2}
   missions: {fileID: 11400000, guid: 89fdfede6d5e27c4891f1ee070f67fda, type: 2}
+  gameFlag: {fileID: 11400000, guid: 6278d66f7bd1cb5499b3b4013c6426f7, type: 2}
 --- !u!1 &360050974 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6542322107371123937, guid: 5e741d51fdd3e324cad1763c6f9892ce, type: 3}
@@ -1587,7 +1588,6 @@ MonoBehaviour:
   button: {fileID: 1508684787}
   PauseMenu: {fileID: 618905089}
   levelChanger: {fileID: 372813499}
-  Lock: {fileID: 1258540220}
   anim: {fileID: 1508684789}
   code: 
   text: {fileID: 1571006991}

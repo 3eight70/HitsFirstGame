@@ -3,7 +3,11 @@ guid: cd642d004ab8f2c4ea1798ac95a4dbf8
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - pauseGameMenu: {instanceID: 0}
+  - code: {fileID: 11400000, guid: 85caea13cf74e1043a205e19b54f1b82, type: 2}
+  - missions: {fileID: 11400000, guid: 89fdfede6d5e27c4891f1ee070f67fda, type: 2}
+  - gameFlag: {fileID: 11400000, guid: 6278d66f7bd1cb5499b3b4013c6426f7, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

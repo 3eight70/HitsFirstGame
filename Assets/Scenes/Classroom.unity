@@ -4521,7 +4521,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 12
+  m_SortingOrder: 9
   m_Sprite: {fileID: 1038416358, guid: 7fd5d6bea3d30bd4f9c5e4411a99032a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -4668,7 +4668,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u041A\u0438\u043C \u041A.\u0421."
+  m_Text: "\u0417\u043C\u0435\u0435\u0432 \u0414.\u041E."
 --- !u!222 &1377322402
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4694,8 +4694,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -163, y: -149}
-  m_SizeDelta: {x: 113.699, y: 40.2891}
+  m_AnchoredPosition: {x: -163, y: -155.02905}
+  m_SizeDelta: {x: 149.8735, y: 40.2891}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &1377883644
 PrefabInstance:
@@ -5853,6 +5853,7 @@ MonoBehaviour:
   pauseGameMenu: {fileID: 262978256}
   code: {fileID: 11400000, guid: 85caea13cf74e1043a205e19b54f1b82, type: 2}
   missions: {fileID: 11400000, guid: 89fdfede6d5e27c4891f1ee070f67fda, type: 2}
+  gameFlag: {fileID: 11400000, guid: 6278d66f7bd1cb5499b3b4013c6426f7, type: 2}
 --- !u!114 &1724541611
 MonoBehaviour:
   m_ObjectHideFlags: 0

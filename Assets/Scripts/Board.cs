@@ -1,9 +1,10 @@
-
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Linq;
 using System;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class Board : MonoBehaviour
 {
@@ -11,12 +12,23 @@ public class Board : MonoBehaviour
     public int boardSize = 8;
     public GameObject[,] cells;
     ClickAndMove cam;
-    public GameObject gameOverPanel;
+
+    public Animator errorAnim;
+    public Animator winAnim;
+    public Text winText;
+
+    public CodeValue code;
+    public FlagValue missions;
 
     void Start()
     {
-        cam = new ClickAndMove(this);
+        cam = new ClickAndMove(this, errorAnim, winAnim, winText, code, missions);
         GenerateBoard();
+    }
+
+    public void Reset()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     void GenerateBoard()
@@ -85,12 +97,12 @@ public class ClickAndMove
     public Vector3 targetPosition;
     public float speed = 1f;
 
-    public ClickAndMove(Board board)
+    public ClickAndMove(Board board, Animator errorAnim, Animator winAnim, Text winText, CodeValue code, FlagValue missions)
     {
         state = State.none;
         item = null;
         moveCalculator = new CheckerMoveCalculator(this);
-        machine = new VerySmartMachine(board, this);
+        machine = new VerySmartMachine(board, this, errorAnim, winAnim, winText, code, missions);
 
     }
 
@@ -398,15 +410,28 @@ public class VerySmartMachine
     private const int BoardSize = 8;
     public int[,] numeralBoard = new int[8, 8];
     private ClickAndMove clickandmove;
-    
+
+    private Animator errorAnim;
+    private Animator winAnim;
+
+    private Text winText;
+    private CodeValue code;
+    private FlagValue missions;
+
 
     private Dictionary<GameObject, GameObject> jumpOverMachineCheckers = new Dictionary<GameObject, GameObject>();
 
-    public VerySmartMachine(Board board, ClickAndMove cam)
+    public VerySmartMachine(Board board, ClickAndMove cam, Animator errorAnim, Animator winAnim, Text winText, CodeValue code, FlagValue missions)
     {
         this.board = board;
         this.clickandmove = cam;
         BoardInit();
+
+        this.errorAnim = errorAnim;
+        this.winAnim = winAnim;
+        this.winText = winText;
+        this.code = code;
+        this.missions = missions;
     }
     public void BoardInit()
     {
@@ -733,13 +758,22 @@ public class VerySmartMachine
 
         if (situationcheck.Item2 == 0 && situationcheck.Item1 > 0)
         {
-            Debug.Log("You won!");
+            if (!missions.checkersFlag)
+            {
+                winText.text = "Эх, ты все же победил, вот твоя цифра " + code.code[3];
+            }
+            else
+            {
+                winText.text = "Ну вот, я снова проиграл...";
+            }
+            missions.checkersFlag = true;
+            winAnim.SetTrigger("OpenWinPopup");
             clickandmove.state = ClickAndMove.State.playend;
             return;
         }
         if (situationcheck.Item1 == 0 && situationcheck.Item2 > 0 || damcheck)
         {
-            Debug.Log("You lost!");
+            errorAnim.SetTrigger("OnErrorUserNumber");
             clickandmove.state = ClickAndMove.State.playend;
             return;
         }
@@ -793,7 +827,7 @@ public class VerySmartMachine
 
         if (move.Item1 == 7)
         {
-            Debug.Log("You lost!");
+            errorAnim.SetTrigger("OnErrorUserNumber");
             clickandmove.state = ClickAndMove.State.playend;
             return;
         }

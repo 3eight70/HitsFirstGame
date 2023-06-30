@@ -11,6 +11,7 @@ public class PauseMenu : MonoBehaviour
     public GameObject pauseGameMenu;
     public CodeValue code;
     public FlagValue missions;
+    public GameValue gameFlag;
 
     void Update()
     {
@@ -53,5 +54,6 @@ public class PauseMenu : MonoBehaviour
         PlayerPrefs.SetInt("math", Convert.ToInt32(missions.mathFlag));
         PlayerPrefs.SetInt("path", Convert.ToInt32(missions.pathFlag));
         PlayerPrefs.SetInt("checkers", Convert.ToInt32(missions.checkersFlag));
+        PlayerPrefs.SetInt("game", Convert.ToInt32(true));
     }
 }
