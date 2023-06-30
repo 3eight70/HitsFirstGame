@@ -129,7 +129,7 @@ public class Tile : MonoBehaviour
 
     public void SetStartPoint()
     {
-        int startScore = 15;
+        int startScore = 12;
 
         UserPathLogic.AccScore = startScore;
         BestPathLogic.AccScore = startScore;

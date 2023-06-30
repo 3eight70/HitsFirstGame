@@ -12,16 +12,32 @@ public class PathfinderUI : MonoBehaviour
     [SerializeField] private Text ErrorText;
     [SerializeField] private Text WinText;
 
+    public CodeValue code;
+    public FlagValue missions;
+
+    private string[] winTexts = { "Кажется выпала шоколадка", "Жаль, ничего не выпало", "Опа, банка газировки", "ДЖЕКПОТ" };
+
     void Awake() 
     {
         Instance = this;
     }
 
-    public void ShowWinPopup(string text)
+    public void ShowWinPopup()
     {
         if (WinText == null || WinAnimator == null) return;
 
-        WinText.text = text;
+        if (!missions.pathFlag)
+        {
+            WinText.text = "Хмм, кажется выпала записка с цифрой: " + code.code[2].ToString();
+        }
+        else
+        {
+            int index = Random.Range(0, 4);
+            WinText.text = winTexts[index].ToString();
+        }
+
+        missions.pathFlag = true;
+
         WinAnimator.SetTrigger("OpenWinPopup");
     }
 }
