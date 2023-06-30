@@ -6,6 +6,30 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: 106f49ae8b0425040a0261df18a97bf4
+  - enabled: 1
+    path: Assets/Scenes/Vending Machine.unity
+    guid: fc731a28e7430a1408477e7d89d1dc45
+  - enabled: 1
     path: Assets/Scenes/Hits.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/Deanery.unity
+    guid: c8f3c8bfe55a3bf4f8a63f2ce6a7088d
+  - enabled: 1
+    path: Assets/Scenes/Classroom.unity
+    guid: c76014b44e609274c85cfac4f5dcc4e8
+  - enabled: 1
+    path: Assets/Scenes/Classroom 1.unity
+    guid: f330809e289ce35429a6c2463b6f22e5
+  - enabled: 1
+    path: Assets/Scenes/Classroom 2.unity
+    guid: d15ecf6413868c741a46bdfb31929534
+  - enabled: 1
+    path: Assets/Scenes/BullsCows.unity
+    guid: 09b59e21f338ba3f9a67b0b61f4f7fd9
+  - enabled: 1
+    path: Assets/Scenes/Pathfinder.unity
+    guid: ec1002d70f51ea34c8f551c4f8afbc8a
   m_configObjects: {}
