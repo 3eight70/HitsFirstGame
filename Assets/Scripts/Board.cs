@@ -261,12 +261,16 @@ public class ClickAndMove
         //item.transform.position = Vector2.Lerp(item.transform.position, clickedCell.position, speed);
 
 
-        moveCalculator.RemoveJumpedOverChecker(clickedCell.gameObject);
+        //moveCalculator.RemoveJumpedOverChecker(clickedCell.gameObject);
         moveCalculator.ClearPossibleMoves(item);
         moveCalculator.CalculatePossibleMoves(item);
 
         if (machine.HumanHasJumpCells(clickedCell.gameObject)==false && diff > (float)1.5 || diff < (float)1.6){
-            moveCalculator.RemoveJumpedOverChecker(clickedCell.gameObject);
+            if (diff > (float)1.6)
+            {
+                moveCalculator.RemoveJumpedOverChecker(clickedCell.gameObject);
+            }
+            
             moveCalculator.ClearPossibleMoves(item);
             state = State.machine;
             //Debug.Log(diff);
@@ -568,9 +572,14 @@ public class VerySmartMachine
         numeralBoard[cords1.Item1, cords1.Item2] = 0;
         numeralBoard[cords2.Item1, cords2.Item2] = isuser;
 
+        (int, int) oppcords = ConvertToCellCord(((cords1.Item1 + cords2.Item1) / 2, (cords1.Item2 + cords2.Item2) / 2));
+
+        Transform checker = GetWhiteChecker(board.cells[oppcords.Item1, oppcords.Item2].transform.position);
         if (isuser == 1 && Math.Abs(diffx) > 1)
         {
             numeralBoard[(cords1.Item1 + cords2.Item1) / 2, (cords1.Item2 + cords2.Item2) / 2] = 0;
+            GameObject.Destroy(checker.gameObject);
+
         }
 
 
@@ -757,8 +766,8 @@ public class VerySmartMachine
     public Transform GetWhiteChecker(Vector2 position)
     {
         int layerMask = LayerMask.GetMask("Checker"); // Only interact with the Checkers layer
-        Collider2D hitCollider = Physics2D.OverlapPoint(position, layerMask);
-
+        //Collider2D hitCollider = Physics2D.OverlapPoint(position, layerMask);
+        Collider2D hitCollider = Physics2D.OverlapCircle(position, 0.3f, layerMask);
         if (hitCollider == null || hitCollider.transform.tag == "Checker")
             return null;
         return hitCollider.transform;
@@ -796,14 +805,14 @@ public class VerySmartMachine
 
         //gameOverPanel.setActive(true);
         //UpdateBoard();
-        //ShowSituation();
+        ShowSituation();
         var pair = GeniusMove(numeralBoard, 6, -1);
         //Debug.Log(pair[0] + " " + pair[1]);
         var cellpair = ConvertToCellCord(pair[0]);
         Transform pickedChecker = GetWhiteChecker(this.board.cells[cellpair.Item1, cellpair.Item2].transform.position);
         //Transform pickedChecker = ModifiedGetter(this.board.cells[cellpair.Item1, cellpair.Item2].transform.position);
-
-
+        Debug.Log(pickedChecker);
+        
         var move = pair[1];
         var cellmove = ConvertToCellCord(move);
 
@@ -825,31 +834,37 @@ public class VerySmartMachine
             //Debug.Log(opposChecker);
             GameObject.Destroy(opposChecker.gameObject);
             numeralBoard[oppcords.Item1, oppcords.Item2] = 0;
-            
+
+            UpdateBoard(pickedChecker.position, targetcell.position, -1);
+            pickedChecker.position = targetcell.position;
+            Debug.Log($"Ход {pair[0]} {pair[1]}");
         }
         else
         {
             Debug.Log($"Daaamn {pair[0]} {pair[1]}");
             if (clickandmove.repeatchecker == 1)
             {
+                Debug.Log("Triggerd");
                 clickandmove.state = ClickAndMove.State.none;
                 clickandmove.repeatchecker = 0;
-                clickandmove.Action();
+                //clickandmove.Action();
                 return;
 
             }
+            UpdateBoard(pickedChecker.position, targetcell.position, -1);
+            pickedChecker.position = targetcell.position;
         }
         //Debug.Log($"Начальная клетка: {pair[0]}");
         //Debug.Log($"Конечная клетка: {pair[1]}");
         //Debug.Log($"Взятая шашка: {pickedChecker}");
         //Debug.Log($"Целевая клетка: {targetcell}");
-        
 
-        
-        UpdateBoard(pickedChecker.position, targetcell.position, -1);
-        pickedChecker.position = targetcell.position;
-        
-        
+
+
+        //UpdateBoard(pickedChecker.position, targetcell.position, -1);
+        //pickedChecker.position = targetcell.position;
+
+
 
 
 
