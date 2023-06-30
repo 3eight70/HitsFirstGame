@@ -32,6 +32,16 @@ public class DialogChecker : MonoBehaviour
 
         else if (flags.mathFlag)
         {
+            return true;
+        }
+
+        else if (flags.checkersFlag)
+        {
+            startButtonWithoutFlag.SetActive(false);
+            startButtonWithFlag.SetActive(true);
+            DialogWithoutFlag.SetActive(false);
+            DialogWithFlag.SetActive(true);
+            winText.text = "Раз уж ты меня переиграл, то вот твоя цифра: " + code.code[0] + ". Сыграем еще разок?";
 
             return true;
         }
