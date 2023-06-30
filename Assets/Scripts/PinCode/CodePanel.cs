@@ -6,9 +6,12 @@ using UnityEngine.UI;
 public class CodePanel : MonoBehaviour
 {
     public bool PauseGame;
+
     public GameObject codeGameMenu;
     public GameObject button;
     public GameObject PauseMenu;
+    public LevelChanger levelChanger;
+
     public Animator anim;
     public string code;
     public Text text;
@@ -16,10 +19,12 @@ public class CodePanel : MonoBehaviour
 
     void Update()
     {
+
         if (code.Length < 5)
         {
             text.text = code;
         }
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (PauseGame)
@@ -46,61 +51,65 @@ public class CodePanel : MonoBehaviour
         PauseGame = true;
         button.SetActive(false);
     }
+
+
     public void ButtonZero()
     {
-        code += 0;
+        if (code !="NO") code += 0;
     }
 
     public void ButtonOne()
     {
-        code += 1;
+        if (code != "NO") code += 1;
     }
 
     public void ButtonTwo()
     {
-        code += 2;
+        if (code != "NO") code += 2;
     }
 
     public void ButtonThree()
     {
-        code += 3;
+        if (code != "NO") code += 3;
     }
 
     public void ButtonFour()
     {
-        code += 4;
+        if (code != "NO") code += 4;
     }
 
     public void ButtonFive()
     {
-        code += 5;
+        if (code != "NO") code += 5;
     }
 
     public void ButtonSix()
     {
-        code += 6;
+        if (code != "NO") code += 6;
     }
 
     public void ButtonSeven()
     {
-        code += 7;
+        if (code != "NO") code += 7;
     }
 
     public void ButtonEight()
     {
-        code += 8;
+        if (code != "NO") code += 8;
     }
 
     public void ButtonNine()
     {
-        code += 9;
+        if (code != "NO") code += 9;
     }
 
     public void EnterButton()
     {
         if (codeValue.code == code)
         {
-            code = "GG";
+            code = "SHIT";
+            levelChanger.FadeToLevel();
+            Time.timeScale = 1f;
         }
         else
         {
